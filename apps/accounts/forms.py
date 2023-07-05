@@ -69,7 +69,7 @@ class UserChangeForm(forms.ModelForm):
         label=_("گذرواژه"),
         help_text=_(
             "گذرواژه‌ها به صورت خام نگهداری نمی‌شوند لذا راهی برای مشاهدهٔ گذرواژهٔ "
-            'این کاربر وجود ندارد، اما می‌توانید آن را با <a href="../password/">این فرم</a> تغییر دهید '
+            'این کاربر وجود ندارد، اما می‌توانید آن را با <a href="{}">این فرم</a> تغییر دهید '
         ),
     )
 
@@ -90,3 +90,37 @@ class UserChangeForm(forms.ModelForm):
             user_permissions.queryset = user_permissions.queryset.select_related(
                 "content_type"
             )
+
+
+class RegisterForm(UserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = ('mobile_number',)
+        widgets = {
+            "mobile_number": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "شماره موبایل را وارد کنید",
+                }
+            ),
+        }
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].help_text = ''
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+        self.fields['password1'].widget.attrs['placeholder'] = 'گذرواژه را وارد کنید'
+
+        self.fields['password2'].help_text = ''
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
+        self.fields['password2'].widget.attrs['placeholder'] = 'تکرار گذرواژه را وارد کنید'
+        
+
+class VerifyCodeForm(forms.Form):
+    activation_code = forms.CharField(
+        label="",
+        error_messages={"required": "این فیلد نمی‌تواند خالی باشد"},
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "کد دریافتی را وارد کنید"}
+        ),
+    )

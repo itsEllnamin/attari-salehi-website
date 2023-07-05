@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.contrib import messages as msg
 from utils import create_random_code, send_sms
+from .forms import RegisterForm, VerifyCodeForm
+from .models import CustomUser
 
 
 # =============================== Functions ==================================
@@ -81,12 +83,13 @@ class VerifyCodeView(View):
         
         if form.is_valid():
             cd = form.cleaned_data
-            activation_code = cd['active_code']
-            
+            activation_code = int(cd['activation_code'])
+
             if request.session.has_key("registered_user"):
                 user_session = request.session["registered_user"]
                 s_mobile_number = user_session["mobile_number"]
                 s_activation_code = user_session["activation_code"]
+
             else:
                 msg.warning(
                     request, "برای ثبت نام ابتدا اطلاعات زیر را وارد کنید", "warning"

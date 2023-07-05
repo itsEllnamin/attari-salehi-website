@@ -44,7 +44,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     mobile_number_validator = RegexValidator(
-        regex=r"^09\d{9}", message="شماره موبایل وارد شده معتبر نیست"
+        regex=r"^09\d{9}", message="شماره موبایل وارد شده معتبر نیست."
     )
 
     mobile_number = models.CharField(
