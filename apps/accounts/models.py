@@ -14,7 +14,7 @@ class CustomUserManager(BaseUserManager):
         self,
         mobile_number,
         password,
-        activation_code=None,
+        activation_code,
         email="",
         name="",
         family="",
@@ -34,7 +34,7 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, mobile_number, password, email, name, family):
-        user = self.create_user(mobile_number, password, email, name, family)
+        user = self.create_user(mobile_number, password, None, email, name, family)
         user.is_active = True
         user.is_staff = True
         user.is_superuser = True

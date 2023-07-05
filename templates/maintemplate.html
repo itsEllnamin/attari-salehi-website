@@ -21,6 +21,8 @@
 	<link rel="stylesheet" href="{% static 'vendor/fontawesome-5.6.3/css/all.min.css' %}">
 </head>
 <body>
+    {% include 'partials/header.html' %}
     {% block content %}{% endblock content %}
+    {% include 'partials/footer.html' %}
 </body>
 </html>
