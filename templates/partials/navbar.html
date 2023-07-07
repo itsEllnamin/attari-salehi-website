@@ -151,10 +151,16 @@
                             </a>
                             <div class="nav-links__menu">
                                 <!-- .menu -->
-                                <ul class="menu menu--layout--classic">
-                                    <li><a href="{% url 'accounts:register' %}">ورود</a></li>
-                                    <li><a href="{% url 'accounts:register' %}">ثبت نام</a></li>
-                                </ul>
+                                {% if user.is_authenticated %}
+                                    <ul class="menu menu--layout--classic">
+                                        <li><a href="{% url 'accounts:logout' %}">خروج</a></li>
+                                    </ul>
+                                {% else %}
+                                    <ul class="menu menu--layout--classic">
+                                        <li><a href="{% url 'accounts:login' %}">ورود</a></li>
+                                        <li><a href="{% url 'accounts:register' %}">ثبت نام</a></li>
+                                    </ul>
+                                {% endif %}
                                 <!-- .menu / end -->
                             </div>
                         </li>

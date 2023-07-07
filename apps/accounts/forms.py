@@ -2,7 +2,11 @@ from django import forms
 from .models import CustomUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import authenticate, password_validation
+from django.contrib.auth.forms import AdminPasswordChangeForm
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.core.validators import RegexValidator
+from middlewares.middlewares import RequestMiddleware
+
 
 
 class UserCreationForm(forms.ModelForm):
@@ -117,10 +121,68 @@ class RegisterForm(UserCreationForm):
         
 
 class VerifyCodeForm(forms.Form):
+    activation_code_validator = RegexValidator(
+    regex=r"^\d{5}$", message="کد احراز هویت یک عدد ۵ رقمی می‌باشد."
+    )
     activation_code = forms.CharField(
         label="",
         error_messages={"required": "این فیلد نمی‌تواند خالی باشد"},
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "کد دریافتی را وارد کنید"}
+            attrs={"class": "form-control", "placeholder": "کد دریافتی را وارد کنید", "autofocus": True}
+        ),
+        validators=[activation_code_validator]
+    )
+
+
+class LoginForm(forms.Form):
+    mobile_number_validator = RegexValidator(
+    regex=r"^09\d{9}", message="شماره موبایل وارد شده معتبر نیست."
+    )
+    
+    mobile_number = forms.CharField(
+        label="شماره موبایل",
+        error_messages={"required": "این فیلد نمی‌تواند خالی باشد"},
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "شماره موبایل را وارد کنید"}
+        ),
+        validators=[mobile_number_validator]
+    )
+    password = forms.CharField(
+        label="گذرواژه",
+        strip=False,
+        error_messages={"required": "این فیلد نمی‌تواند خالی باشد"},
+        widget=forms.PasswordInput(
+            attrs={"class": "form-control", "placeholder": "گذرواژه را وارد کنید"}
         ),
     )
+
+
+class RememberPasswordForm(forms.Form):
+    mobile_number_validator = RegexValidator(
+    regex=r"^09\d{9}", message="شماره موبایل وارد شده معتبر نیست."
+    )
+    
+    mobile_number = forms.CharField(
+        label="شماره موبایل",
+        error_messages={"required": "این فیلد نمی‌تواند خالی باشد"},
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "شماره موبایل را وارد کنید"}
+        ),
+        validators=[mobile_number_validator]
+    )
+
+
+class ChangePasswordForm(AdminPasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        request = RequestMiddleware(get_response=None)
+        request = request.thread_local.current_request
+        user = request.user
+        super().__init__(user, *args, **kwargs)
+        
+        self.fields['password1'].help_text = ''
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+        self.fields['password1'].widget.attrs['placeholder'] = 'گذرواژه را وارد کنید'
+
+        self.fields['password2'].help_text = ''
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
+        self.fields['password2'].widget.attrs['placeholder'] = 'تکرار گذرواژه را وارد کنید'
