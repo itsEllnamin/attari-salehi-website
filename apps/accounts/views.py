@@ -51,8 +51,9 @@ class RegisterView(View):
                 "success",
             )
             send_sms(
+                'Code',
                 mobile_number,
-                f"کد فعالسازی حساب کاربری در عطاری صالحی: {activation_code}",
+                f'{activation_code}'
             )
 
             request.session["registered_user"] = {
