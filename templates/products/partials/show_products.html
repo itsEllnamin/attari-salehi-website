@@ -1,0 +1,97 @@
+{% if  ad == True %}
+    {% if type == 'row' %}
+        {% if not featured %}
+            <div class="block block-products-carousel" data-layout="grid-5">
+                <div class="container">
+                    <div class="block-header">
+                        <h3 class="block-header__title">محصولات ویژه</h3>
+                        <div class="block-header__divider"></div>
+                        <ul class="block-header__groups-list">
+                            <li>
+                                <button type="button"
+                                    class="block-header__group block-header__group--active">همه</button>
+                            </li>
+                            <li>
+                                <button type="button" class="block-header__group">کالای دیجیتال</button>
+                            </li>
+                            <li>
+                                <button type="button" class="block-header__group">مد و پوشاک</button>
+                            </li>
+                            <li>
+                                <button type="button" class="block-header__group">مواد غذایی</button>
+                            </li>
+                        </ul>
+                        <div class="block-header__arrows-list">
+                            <button class="block-header__arrow block-header__arrow--left" type="button">
+                                <i class="fas fa-angle-right"></i>
+                            </button>
+                            <button class="block-header__arrow block-header__arrow--right" type="button">
+                                <i class="fas fa-angle-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-products-carousel__slider">
+                        <div class="block-products-carousel__preloader"></div>
+                        <div class="owl-carousel owl-rtl owl-loaded owl-drag">
+                            <div class="owl-stage-outer">
+                                <div class="owl-stage"
+                                    style="transform: translate3d(1120px, 0px, 0px); transition: all 0s ease 0s; width: 4034px; padding-left: 1px; padding-right: 1px;">
+                                    <div class="owl-item active" style="width: 212px; margin-left: 12px;">
+                                        <div class="block-products-carousel__column">
+                                            <div class="block-products-carousel__cell">
+                                                {% include 'products/partials/product_card.html' type='normal-detailed' %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="owl-nav disabled"><button type="button" role="presentation"
+                                    class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button"
+                                    role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
+                            <div class="owl-dots disabled"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="block block-products block-products--layout--large-last">
+                <div class="container">
+                    <div class="block-header">
+                        <h3 class="block-header__title">پرفروش ترین ها</h3>
+                        <div class="block-header__divider"></div>
+                    </div>
+                    <div class="block-products__body">
+                        <div class="block-products__list">
+                            <div class="block-products__list-item">
+                                {% include 'products/partials/product_card.html' type='normal-detailed' %}
+                            </div>
+                        </div>
+                        <div class="block-products__featured">
+                            <div class="block-products__featured-item">
+                                {% include 'products/partials/product_card.html' type='big' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% elif type == 'column' %}
+        <div class="block-sidebar__item d-none d-lg-block">
+            <div class="widget-products widget">
+                <h4 class="widget__title">محصولات جدید</h4>
+                <div class="widget-products__list">
+                    {% include 'products/partials/product_card.html' type='small' %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false">
+        <div class="products-list__body">
+            <div class="products-list__item">
+                {% include 'products/partials/product_card.html' type='normal' %}
+            </div>
+        </div>
+    </div>
+{% endif %}
