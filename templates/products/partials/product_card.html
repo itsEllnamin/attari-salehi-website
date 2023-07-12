@@ -1,19 +1,20 @@
+{% load humanize %}
 {% if type == 'normal-detailed' %}
     <div class="product-card">
         <div class="product-card__image">
-            <a href="product.html">
-                <img src="{{media_url}}images/products/p1.jpg" alt="">
+            <a href="{{product.get_absolute_url}}">
+                <img src="{{media_url}}{{product.main_image}}" alt="{{product.name}}">
             </a>
         </div>
         <div class="product-card__info">
             <div class="product-card__name">
-                <a href="product.html">
-                    کالای شماره 1
+                <a href="{{product.get_absolute_url}}">
+                    {{product.name}}
                 </a>
             </div>
         </div>
         <div class="product-card__actions">
-            <div class="product-card__prices">200,000 تومان</div>
+            <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
             <div class="product-card__buttons">
                 <button class="btn btn-primary product-card__addtocart"
                     type="button">
@@ -42,12 +43,12 @@
             <div class="product-card__badge product-card__badge--new">جدید</div>
         </div>
         <div class="product-card__image">
-            <a href="product.html">
-                <img src="https://picsum.photos/700/700" alt="">
+            <a href="{{product.get_absolute_url}}">
+                <img src="{{media_url}}{{product.main_image}}" alt="{{product.name}}">
             </a>
         </div>
         <div class="product-card__info">
-            <div class="product-card__name"><a href="product.html">اره برقی برندیکس مدل 300 وات</a></div>
+            <div class="product-card__name"><a href="{{product.get_absolute_url}}">{{product.name}}</a></div>
 
         </div>
         <div class="product-card__actions">
@@ -70,12 +71,12 @@
 {% elif type == 'small' %}
     <div class="widget-products__item">
         <div class="widget-products__image">
-            <a href="product.html">
+            <a href="{{product.get_absolute_url}}">
                 <img src="https://picsum.photos/700/700" alt="">
             </a>
         </div>
         <div class="widget-products__info">
-            <div class="widget-products__name"><a href="product.html">اره برقی برندیکس مدل 300 وات</a></div>
+            <div class="widget-products__name"><a href="{{product.get_absolute_url}}">اره برقی برندیکس مدل 300 وات</a></div>
             <div class="widget-products__prices">749,000 تومان</div>
         </div>
     </div>
@@ -86,13 +87,13 @@
             <div class="product-card__badge product-card__badge--new">جدید</div>
         </div>
         <div class="product-card__image">
-            <a href="product.html">
+            <a href="{{product.get_absolute_url}}">
                 <img src="{{media_url}}images/products/p1.jpg" alt="">
             </a>
         </div>
         <div class="product-card__info">
             <div class="product-card__name">
-                <a href="product.html">
+                <a href="{{product.get_absolute_url}}">
                     کالای شماره 2
                 </a>
             </div>

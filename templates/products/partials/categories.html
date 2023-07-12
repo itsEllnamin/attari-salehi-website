@@ -1,0 +1,13 @@
+<div class="block block--highlighted block-categories block-categories--layout--compact">
+    <div class="container">
+        <div class="block-header">
+            <h3 class="block-header__title">دسته‌بندی‌ها</h3>
+            <div class="block-header__divider"></div>
+        </div>
+        <div class="block-categories__list">
+            {% for category in categories %}
+                {% include 'products/partials/category_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

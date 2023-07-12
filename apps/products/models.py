@@ -3,27 +3,29 @@ from django.utils import timezone
 from utils import FileManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
+
 
 
 app_name = "product_app"
 
 
-class Brand(models.Model):
-    title = models.CharField(_("عنوان برند"), max_length=100)
-    file_manager = FileManager("images", app_name, "brands")
-    logo = models.ImageField(_("لوگو"), upload_to=file_manager.upload_to)
-    slug = models.SlugField(_('اسلاگ'), max_length=150)
-    is_active = models.BooleanField(_("وضعیت فعال/غیرفعال"), default=True, blank=True)
-    register_datetime = models.DateTimeField(_("تاریخ درج"), auto_now_add=True)
-    update_datetime = models.DateTimeField(_("تاریخ آخرین بروزرسانی"), auto_now=True)
-    publish_datetime = models.DateTimeField(_("تاریخ انتشار"), default=timezone.now)
+# class Brand(models.Model):
+#     title = models.CharField(_("عنوان برند"), max_length=100)
+#     file_manager = FileManager("images", app_name, "brands")
+#     logo = models.ImageField(_("لوگو"), upload_to=file_manager.upload_to)
+#     slug = models.SlugField(_('اسلاگ'), max_length=150)
+#     is_active = models.BooleanField(_("وضعیت فعال/غیرفعال"), default=True, blank=True)
+#     register_datetime = models.DateTimeField(_("تاریخ درج"), auto_now_add=True)
+#     update_datetime = models.DateTimeField(_("تاریخ آخرین بروزرسانی"), auto_now=True)
+#     publish_datetime = models.DateTimeField(_("تاریخ انتشار"), default=timezone.now)
 
-    def __str__(self):
-        return self.title
+#     def __str__(self):
+#         return self.title
 
-    class Meta:
-        verbose_name = _("برند")
-        verbose_name_plural = _("برندها")
+#     class Meta:
+#         verbose_name = _("برند")
+#         verbose_name_plural = _("برندها")
 
 
 class ProductCategory(models.Model):
@@ -45,6 +47,9 @@ class ProductCategory(models.Model):
     update_datetime = models.DateTimeField(_("تاریخ آخرین بروزرسانی"), auto_now=True)
     publish_datetime = models.DateTimeField(_("تاریخ انتشار"), default=timezone.now)
 
+    def get_absolute_url(self):
+        return reverse('products:product_category', kwargs={'slug':self.slug})
+
     def __str__(self):
         return self.title
 
@@ -55,9 +60,8 @@ class ProductCategory(models.Model):
 
 class Feature(models.Model):
     name = models.CharField(_("نام ویژگی"), max_length=100)
-    category = models.ForeignKey(
+    categories = models.ManyToManyField(
         ProductCategory,
-        models.CASCADE,
         verbose_name=_("دسته‌ی کالا"),
         related_name="features",
     )
@@ -76,6 +80,7 @@ class Feature(models.Model):
 
 class FeatureDigitalValue(models.Model):
     value = models.CharField(_("مقدار"), max_length=60)
+    feature = models.ForeignKey(Feature, models.CASCADE, verbose_name=_('ویژگی'), related_name="digital_values")
 
     def __str__(self):
         return self.value
@@ -100,14 +105,14 @@ class Product(models.Model):
         verbose_name=_("دسته‌ی کالا"),
         related_name="category_products",
     )
-    brand = models.ForeignKey(
-        Brand,
-        models.CASCADE,
-        verbose_name=_("برند کالا"),
-        blank=True,
-        null=True,
-        related_name="products",
-    )
+    # brand = models.ForeignKey(
+    #     Brand,
+    #     models.CASCADE,
+    #     verbose_name=_("برند کالا"),
+    #     blank=True,
+    #     null=True,
+    #     related_name="products",
+    # )
     features = models.ManyToManyField(
         Feature,
         through="ProductFeature",
@@ -119,6 +124,9 @@ class Product(models.Model):
     register_datetime = models.DateTimeField(_("تاریخ درج"), auto_now_add=True)
     update_datetime = models.DateTimeField(_("تاریخ آخرین بروزرسانی"), auto_now=True)
     publish_datetime = models.DateTimeField(_("تاریخ انتشار"), default=timezone.now)
+
+    def get_absolute_url(self):
+        return reverse('products:product', kwargs={'slug':self.slug})
 
     def __str__(self):
         return self.name

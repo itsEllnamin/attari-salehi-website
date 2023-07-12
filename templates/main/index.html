@@ -112,7 +112,7 @@
         </div>
     </div>
     <!-- .block-features / end -->
-    {% comment %} {% render_partial '' %} {% endcomment %}
+    {% render_partial 'products:cheapest' %}
     <!-- .block-banner -->
     <div class="block block-banner">
         <div class="container">
@@ -132,102 +132,9 @@
         </div>
     </div>
     <!-- .block-banner / end -->
-    
+    {% comment %} {% render_partial 'products:cheapest' %}     {% endcomment %}
     <!-- .block-categories -->
-    <div class="block block--highlighted block-categories block-categories--layout--compact">
-        <div class="container">
-            <div class="block-header">
-                <h3 class="block-header__title">دسته های محبوب</h3>
-                <div class="block-header__divider"></div>
-            </div>
-            <div class="block-categories__list">
-                <div class="block-categories__item category-card category-card--layout--compact">
-                    <div class="category-card__body">
-                        <div class="category-card__image">
-                            <a href="">
-                                <img src="{{media_url}}images/categories/mobile.jpg" alt="">
-                            </a>
-                        </div>
-                        <div class="category-card__content">
-                            <div class="category-card__name"><a href="">موبایل</a></div>
-                            <div class="category-card__all"><a href="">نمایش همه</a></div>
-                            <div class="category-card__products">780 محصول</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="block-categories__item category-card category-card--layout--compact">
-                    <div class="category-card__body">
-                        <div class="category-card__image">
-                            <a href="">
-                                <img src="{{media_url}}images/categories/laptop.jpg" alt="">
-                            </a>
-                        </div>
-                        <div class="category-card__content">
-                            <div class="category-card__name"><a href="">لپ تاپ</a></div>
-                            <div class="category-card__all"><a href="">نمایش همه</a></div>
-                            <div class="category-card__products">292 محصول</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="block-categories__item category-card category-card--layout--compact">
-                    <div class="category-card__body">
-                        <div class="category-card__image">
-                            <a href="">
-                                <img src="{{media_url}}images/categories/clothing.png" alt="">
-                            </a>
-                        </div>
-                        <div class="category-card__content">
-                            <div class="category-card__name"><a href="">پوشاک</a></div>
-                            <div class="category-card__all"><a href="">نمایش همه</a></div>
-                            <div class="category-card__products">189 محصول</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="block-categories__item category-card category-card--layout--compact">
-                    <div class="category-card__body">
-                        <div class="category-card__image">
-                            <a href="">
-                                <img src="{{media_url}}images/categories/Foodstuffs.png" alt="">
-                            </a>
-                        </div>
-                        <div class="category-card__content">
-                            <div class="category-card__name"><a href="">مواد غذایی</a></div>
-                            <div class="category-card__all"><a href="">نمایش همه</a></div>
-                            <div class="category-card__products">32 محصول</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="block-categories__item category-card category-card--layout--compact">
-                    <div class="category-card__body">
-                        <div class="category-card__image">
-                            <a href="">
-                                <img src="{{media_url}}images/categories/hardware.jpg" alt="">
-                            </a>
-                        </div>
-                        <div class="category-card__content">
-                            <div class="category-card__name"><a href="">سخت افزار</a></div>
-                            <div class="category-card__all"><a href="">نمایش همه</a></div>
-                            <div class="category-card__products">450 محصول</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="block-categories__item category-card category-card--layout--compact">
-                    <div class="category-card__body">
-                        <div class="category-card__image">
-                            <a href="">
-                                <img src="{{media_url}}images/categories/camera.png" alt="">
-                            </a>
-                        </div>
-                        <div class="category-card__content">
-                            <div class="category-card__name"><a href="">دوربین</a></div>
-                            <div class="category-card__all"><a href="">نمایش همه</a></div>
-                            <div class="category-card__products">123 محصول</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% render_partial 'products:categories' %}
     <!-- .block-categories / end -->
     <!-- .block-products-carousel -->
     <div class="block block-products-carousel" data-layout="grid-5">

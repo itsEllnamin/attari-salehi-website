@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.products',
     'django_render_partial',
+    'django.contrib.humanize',
     'ckeditor',
     'ckeditor_uploader',
 ]
