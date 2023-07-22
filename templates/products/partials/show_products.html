@@ -82,7 +82,9 @@
             <div class="widget-products widget">
                 <h4 class="widget__title">محصولات جدید</h4>
                 <div class="widget-products__list">
-                    {% include 'products/partials/product_card.html' with type='small' %}
+                    {% for product in products %}
+                        {% include 'products/partials/product_card.html' with type='small' %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -90,11 +92,16 @@
 {% else %}
     <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false">
         <div class="products-list__body">
-            {% for product in products %}
+            {% for product in page_obj %}
                 <div class="products-list__item">
                     {% include 'products/partials/product_card.html' with type='normal' %}
                 </div>
             {% endfor %}
+        </div>
+        <br>
+        <br>
+        <div class="products-view__pagination">
+            {% include 'partials/pager.html' %}
         </div>
     </div>
 {% endif %}

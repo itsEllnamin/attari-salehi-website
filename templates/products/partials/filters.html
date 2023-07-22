@@ -1,0 +1,285 @@
+{% load static %}
+<link href="{% static 'css/price_ranger.css' %}" rel="stylesheet">
+<div class="block-sidebar__item">
+    <div class="widget-filters widget" data-collapse data-collapse-opened-class="filter--opened">
+        <form action="">
+            <div class="filters-headbar">
+                <h4 class="widget__title">فیلترها</h4>
+                {% if feature_value_list or price_min or price_max %}
+                    <a href="{{current_category.get_absolute_url}}" class="btn-filter-state">
+                        <i class='fa fa-times'> حذف همه فیلترها</i>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="widget-filters__list">
+                <div class="widget-filters__item">
+                    <div class="filter filter--opened" data-collapse-item>
+                        <button type="button" class="filter__title" data-collapse-trigger>دسته ها</button>
+                        <div class="filter__body" data-collapse-content>
+                            <div class="filter__container">
+                                <div class="filter-categories">
+                                    <ul class="filter-categories__list">
+                                        {% for category in categories %}
+                                            <li class="filter-categories__item filter-categories__item--child"><a href="{{category.get_absolute_url}}">{{category.title}}</a>
+                                                <div class="filter-categories__counter">{{category.count}}</div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-filters__item">
+                    <div class="filter filter--opened" data-collapse-item>
+                        <div class="filters-headbar">
+                            <button type="button" class="filter__title" data-collapse-trigger>قیمت (تومان)</button>
+                            {% if price_max or price_min %}
+                                <a onclick="remove_price_filter();" class="btn-filter-state">
+                                    <i class='fa fa-times'> حذف فیلتر</i>
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="filter__body" data-collapse-content>
+                            <div class="filter__container">
+                                <div class='min'>
+                                    <span id="min-value"></span>
+                                </div>
+                                <div class="max">
+                                    <span id="max-value"></span>
+                                </div>
+                                <div class="min-max-range">
+                                    {% for category in categories %}
+                                        {% if category.title == current_category.title %}
+                                            {% if price_min and price_max %}
+                                                <input type="range" min="{{category.mid_p}}" max="{{category.max_p}}" value="{{price_max}}" class="range" name="price_max" id="max">      
+                                                <input type="range" min="{{category.min_p}}" max="{{category.mid_p}}" value="{{price_min}}" class="range" name="price_min" id="min">
+                                            {% else %}
+                                                <input type="range" min="{{category.mid_p}}" max="{{category.max_p}}" value="{{category.max_p}}" class="range" name="price_max" id="max">      
+                                                <input type="range" min="{{category.min_p}}" max="{{category.mid_p}}" value="{{category.min_p}}" class="range" name="price_min" id="min">
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="min">
+                                    <label>حداقل</label>
+                                </div>
+                                <div class="max">
+                                    <label>حداکثر</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="{% static 'js/price_ranger.js' %}"></script>
+                <div class="widget-filters__item">
+                    <div class="filters-headbar">
+                        {% if feature_value_list %}
+                            <a onclick="remove_feature_filter();" class="btn-filter-state">
+                                <i class='fa fa-times'>حذف فیلتر</i>
+                            </a>
+                        {% endif %}
+                    </div>
+                    {% for feature in current_category.features.all  %}
+                        <div class="filter filter--opened" data-collapse-item>
+                            <button type="button" class="filter__title" data-collapse-trigger>{{feature.name}}</button>
+                            <div class="filter__body" data-collapse-content>
+                                <div class="filter__container">
+                                    <div class="filter-list">
+                                        <div class="filter-list__list">
+                                            {% for digital_value in feature.digital_values.all %}
+                                                <label class="filter-list__item">
+                                                    <span class="filter-list__input input-check">
+                                                        <span class="input-check__body">
+                                                            {% if digital_value.id in feature_value_list %}
+                                                                <input id="item_{{digital_value.id}}" name="feature_value" class="input-check__input" value="{{digital_value.id}}" type="checkbox" checked>
+                                                            {% else %}
+                                                                <input id="item_{{digital_value.id}}" name="feature_value" class="input-check__input" value="{{digital_value.id}}" type="checkbox">
+                                                            {% endif %}
+                                                            <span class="input-check__box"></span>
+                                                        </span>
+                                                    </span>
+                                                    <span class="filter-list__title">{{digital_value.value}}</span>
+                                                    {% comment %} <span class="filter-list__counter">{{digital_value.feature.products.count}}</span> {% endcomment %}
+                                                </label>
+                                            {% endfor %}
+                                            {% comment %} <label class="filter-list__item filter-list__item--disabled"><span class="filter-list__input input-check"><span class="input-check__body"><input class="input-check__input" type="checkbox" checked disabled> <span class="input-check__box"></span>
+                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                    <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                                </svg>
+                                                </span>
+                                                </span><span class="filter-list__title">ویوالت</span>
+                                            </label> {% endcomment %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% comment %} <div class="widget-filters__item">
+                    <div class="filter filter--opened" data-collapse-item>
+                        <button type="button" class="filter__title" data-collapse-trigger>برند</button>
+                        <div class="filter__body" data-collapse-content>
+                            <div class="filter__container">
+                                <div class="filter-list">
+                                    <div class="filter-list__list">
+                                        <label class="filter-list__item"><span class="filter-list__input input-radio"><span class="input-radio__body"><input class="input-radio__input" name="filter_radio" type="radio"> <span class="input-radio__circle"></span> </span>
+                                            </span><span class="filter-list__title">واکیتا </span><span class="filter-list__counter">7</span></label>
+                                        <label class="filter-list__item"><span class="filter-list__input input-radio"><span class="input-radio__body"><input class="input-radio__input" name="filter_radio" type="radio"> <span class="input-radio__circle"></span> </span>
+                                            </span><span class="filter-list__title">زوک </span><span class="filter-list__counter">42</span></label>
+                                        <label class="filter-list__item filter-list__item--disabled"><span class="filter-list__input input-radio"><span class="input-radio__body"><input class="input-radio__input" name="filter_radio" type="radio" checked disabled> <span class="input-radio__circle"></span> </span>
+                                            </span><span class="filter-list__title">ویوالت</span></label>
+                                        <label class="filter-list__item filter-list__item--disabled"><span class="filter-list__input input-radio"><span class="input-radio__body"><input class="input-radio__input" name="filter_radio" type="radio" disabled> <span class="input-radio__circle"></span> </span>
+                                            </span><span class="filter-list__title">هامر</span></label>
+                                        <label class="filter-list__item"><span class="filter-list__input input-radio"><span class="input-radio__body"><input class="input-radio__input" name="filter_radio" type="radio"> <span class="input-radio__circle"></span> </span>
+                                            </span><span class="filter-list__title">میتاسیا </span><span class="filter-list__counter">1</span></label>
+                                        <label class="filter-list__item"><span class="filter-list__input input-radio"><span class="input-radio__body"><input class="input-radio__input" name="filter_radio" type="radio"> <span class="input-radio__circle"></span> </span>
+                                            </span><span class="filter-list__title">متاگو </span><span class="filter-list__counter">25</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> {% endcomment %}
+                {% comment %} <div class="widget-filters__item">
+                    <div class="filter filter--opened" data-collapse-item>
+                        <button type="button" class="filter__title" data-collapse-trigger>رنگ</button>
+                        <div class="filter__body" data-collapse-content>
+                            <div class="filter__container">
+                                <div class="filter-color">
+                                    <div class="filter-color__list">
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color input-check-color--white" style="color: #fff;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color input-check-color--light" style="color: #d9d9d9;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #b3b3b3;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #808080;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #666;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #4d4d4d;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #262626;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #ff4040;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox" checked> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #ff8126;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color input-check-color--light" style="color: #ffd440;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color input-check-color--light" style="color: #becc1f;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #8fcc14;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox" checked> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #47cc5e;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #47cca0;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #47cccc;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #40bfff;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox" disabled> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #3d6dcc;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox" checked> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #7766cc;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #b852cc;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                        <label class="filter-color__item"><span class="filter-color__check input-check-color" style="color: #e53981;"><label class="input-check-color__body"><input class="input-check-color__input" type="checkbox"> <span class="input-check-color__box"></span>
+                                            <svg class="input-check-color__icon" width="12px" height="9px">
+                                                <use xlink:href="images/sprite.svg#check-12x9"></use>
+                                            </svg> <span class="input-check-color__stick"></span></label>
+                                        </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> {% endcomment %}
+            </div>
+            <div class="widget-filters__actions d-flex">
+                <button class="btn btn-primary btn-sm">فیلتر</button>
+                <button class="btn btn-secondary btn-sm">بازنشانی</button>
+            </div>
+        </form>
+    </div>
+</div>

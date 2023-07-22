@@ -6,7 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
 
-
 app_name = "product_app"
 
 
@@ -41,14 +40,14 @@ class ProductCategory(models.Model):
         blank=True,
         null=True,
     )
-    slug = models.SlugField(_('اسلاگ'), max_length=150)
+    slug = models.SlugField(_("اسلاگ"), max_length=150)
     is_active = models.BooleanField(_("وضعیت فعال/غیرفعال"), default=True, blank=True)
     register_datetime = models.DateTimeField(_("تاریخ درج"), auto_now_add=True)
     update_datetime = models.DateTimeField(_("تاریخ آخرین بروزرسانی"), auto_now=True)
     publish_datetime = models.DateTimeField(_("تاریخ انتشار"), default=timezone.now)
 
     def get_absolute_url(self):
-        return reverse('products:product_category', kwargs={'slug':self.slug})
+        return reverse("products:product_category", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.title
@@ -80,7 +79,9 @@ class Feature(models.Model):
 
 class FeatureDigitalValue(models.Model):
     value = models.CharField(_("مقدار"), max_length=60)
-    feature = models.ForeignKey(Feature, models.CASCADE, verbose_name=_('ویژگی'), related_name="digital_values")
+    feature = models.ForeignKey(
+        Feature, models.CASCADE, verbose_name=_("ویژگی"), related_name="digital_values"
+    )
 
     def __str__(self):
         return self.value
@@ -119,14 +120,14 @@ class Product(models.Model):
         verbose_name=_("ویژگی‌های کالا"),
         related_name="products",
     )
-    slug = models.SlugField(_('اسلاگ'), max_length=150)
+    slug = models.SlugField(_("اسلاگ"), max_length=150)
     is_active = models.BooleanField(_("وضعیت فعال/غیرفعال"), default=True, blank=True)
     register_datetime = models.DateTimeField(_("تاریخ درج"), auto_now_add=True)
     update_datetime = models.DateTimeField(_("تاریخ آخرین بروزرسانی"), auto_now=True)
     publish_datetime = models.DateTimeField(_("تاریخ انتشار"), default=timezone.now)
 
     def get_absolute_url(self):
-        return reverse('products:product', kwargs={'slug':self.slug})
+        return reverse("products:product", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.name
@@ -172,7 +173,7 @@ class ProductImage(models.Model):
     images = models.ImageField(_("تصویر"), upload_to=file_manager.upload_to)
 
     def __str__(self):
-        return self.product
+        return f'{self.product}'
 
     class Meta:
         verbose_name = _("تصویر کالا")

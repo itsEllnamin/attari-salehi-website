@@ -53,18 +53,9 @@
         </div>
         <div class="product-card__actions">
             <div class="product-card__availability">موجودی: <span class="text-success">موجود در انبار</span></div>
-            <div class="product-card__prices">749,000 تومان</div>
+            <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
             <div class="product-card__buttons">
                 <button class="btn btn-primary product-card__addtocart" type="button">افزودن به سبد</button>
-                <button class="btn btn-secondary product-card__addtocart product-card__addtocart--list" type="button">افزودن به سبد</button>
-                <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button">
-                    <svg width="16px" height="16px">
-                        <use xlink:href="images/sprite.svg#wishlist-16"></use>
-                    </svg> <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span></button>
-                <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare" type="button">
-                    <svg width="16px" height="16px">
-                        <use xlink:href="images/sprite.svg#compare-16"></use>
-                    </svg> <span class="fake-svg-icon fake-svg-icon--compare-16"></span></button>
             </div>
         </div>
     </div>
@@ -72,12 +63,12 @@
     <div class="widget-products__item">
         <div class="widget-products__image">
             <a href="{{product.get_absolute_url}}">
-                <img src="https://picsum.photos/700/700" alt="">
+                <img src="{{media_url}}{{product.main_image}}" alt="{{product.name}}">
             </a>
         </div>
         <div class="widget-products__info">
-            <div class="widget-products__name"><a href="{{product.get_absolute_url}}">اره برقی برندیکس مدل 300 وات</a></div>
-            <div class="widget-products__prices">749,000 تومان</div>
+            <div class="widget-products__name"><a href="{{product.get_absolute_url}}">{{product.name}}</a></div>
+            <div class="widget-products__prices">{{product.price|intcomma:False}} تومان</div>
         </div>
     </div>
 {% elif type == 'big' %}

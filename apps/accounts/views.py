@@ -2,27 +2,20 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.contrib import messages as msg
 from django.contrib.auth import authenticate, login, logout
-from utils import create_random_code, send_sms
+from utils import create_random_code, send_sms, partial_path, page_path
 from .forms import RegisterForm, VerifyCodeForm, LoginForm, RememberPasswordForm, ChangePasswordForm
 from .models import CustomUser
 
 
-# =============================== Functions ==================================
 
-
-def page_path(filename):
-    return f"accounts/{filename}.html"
-
-
-def partial_path(filename):
-    return f"accounts/partials/{filename}.html"
-
+appname = 'accounts'
+# =============================== Functions =================================
 
 # =============================== Pages ==================================
 
 
 class RegisterView(View):
-    template_name = page_path("register")
+    template_name = page_path(appname, "register")
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -69,7 +62,7 @@ class RegisterView(View):
 
 
 class VerifyCodeView(View):
-    template_name = page_path("verify_code")
+    template_name = page_path(appname, "verify_code")
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -122,7 +115,7 @@ class VerifyCodeView(View):
 
 
 class LoginView(View):
-    template_name= page_path('login')
+    template_name= page_path(appname, 'login')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -164,7 +157,7 @@ class LogoutView(View):
 
 
 class RememberPasswordView(View):
-    template_name = page_path('remember_password')
+    template_name = page_path(appname, 'remember_password')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -205,7 +198,7 @@ class RememberPasswordView(View):
 
 
 class ChangePasswordView(View):
-    template_name = page_path('change_password')
+    template_name = page_path(appname, 'change_password')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:

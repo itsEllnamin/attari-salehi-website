@@ -1,3 +1,9 @@
+def page_path(appname, filename):
+    return f"{appname}/{filename}.html"
+
+def partial_path(appname, filename):
+    return f"{appname}/partials/{filename}.html"
+
 def create_random_code(count):
     from random import randint
     return randint(10**(count-1), 10**count-1)

@@ -9536,3 +9536,11 @@ screen and (-ms-high-contrast:active) {
 	border-radius: 50%;
 	height: 100px;
 }
+.filters-headbar{
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+a {
+	cursor: pointer;
+}
