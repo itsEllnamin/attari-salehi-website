@@ -13,7 +13,6 @@ appname = 'accounts'
 
 # =============================== Pages ==================================
 
-
 class RegisterView(View):
     template_name = page_path(appname, "register")
 
