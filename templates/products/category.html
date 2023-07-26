@@ -35,34 +35,44 @@
                         {% render_partial 'products:newest' %}
                     </div>
                 </div>
-                
                 <div class="shop-layout__content">
                     <div class="block">
                         <div class="products-view">
                             <div class="products-view__options">
                                 <div class="view-options">
 
-                                    <div class="view-options__legend">در حال نمایش 6 از 98 محصول</div>
+                                    <div class="view-options__legend">در حال نمایش {{object_list.count}} از {{paginator.object_list.count}} محصول</div>
                                     <div class="view-options__divider"></div>
                                     <div class="view-options__control">
                                         <label for="">مرتب‌سازی بر اساس</label>
                                         <div>
-                                            <select class="form-control form-control-sm" name="" id="">
-                                                <option value="">پیش فرض</option>
-                                                <option value="">نام (صعودی)</option>
-                                                <option value="">نام (نزولی)</option>
+                                            <select class="form-control form-control-sm" name="" id="select_sort" onchange="select_sort();">
+                                                {% if sort_type == "0" %}
+                                                    <option value="0" selected>پیش فرض</option>
+                                                    <option value="1">قیمت (صعودی)</option>
+                                                    <option value="2">قیمت  (نزولی)</option>
+                                                {% elif sort_type == '1' %}
+                                                    <option value="0">پیش فرض</option>
+                                                    <option value="1" selected>قیمت (صعودی)</option>
+                                                    <option value="2">قیمت (نزولی)</option>
+                                                {% elif sort_type == '2' %}
+                                                    <option value="0">پیش فرض</option>
+                                                    <option value="1">قیمت (صعودی)</option>
+                                                    <option value="2" selected>قیمت (نزولی)</option>
+                                                {% endif %}
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="view-options__control">
+                                    {% comment %} <div class="view-options__control">
                                         <label for="">نمایش</label>
                                         <div>
-                                            <select class="form-control form-control-sm" name="" id="">
-                                                <option value="">12</option>
-                                                <option value="">24</option>
+                                            <select class="form-control form-control-sm" onchange="select_paginate_by();" id="select_paginate_by">
+                                                {% for item in paginate_by %}
+                                                    <option value="{{item}}">{{item}}</option>
+                                                {% endfor %}
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> {% endcomment %}
                                 </div>
                             </div>
                             {% include 'products/partials/show_products.html' %}

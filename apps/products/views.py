@@ -46,7 +46,7 @@ def get_categories_contain_products():
 # برگرداندن محصولات یک دسته‌بندی
 def get_category_products(slug):
     category = get_product_category(slug)
-    queryset = Product.objects.filter(is_active=True, category=category)
+    queryset = Product.objects.filter(category=category)
     return queryset
 
 
@@ -153,6 +153,10 @@ class BaseProductsView(ActiveListView):
         context.update(self.init_context)
         return context
 
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset(**kwargs)
+        return qs[:5]   
+
 
 # # ارزان‌ترین محصولات
 class CheapestProductsView(BaseProductsView):
@@ -232,28 +236,41 @@ class ProductCategoryView(ActiveFilterView):
         .order_by("-count")
     )
 
-    model = Product
     extra_context = {"categories": categories}
     filterset_class = ProductFilter
     paginate_by = 9
     template_name = page_path(appname, "category")
+    paginate_orphans = 3
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
         feature_value_list = self.request.session.get("feature_value_list")
         price_max = self.request.session.get("price_max")
         price_min = self.request.session.get("price_min")
         slug = self.kwargs.get("slug")
+        context = super().get_context_data(**kwargs)
         context["feature_value_list"] = [int(item) for item in feature_value_list]
         context["price_max"] = price_max
         context["price_min"] = price_min
         context["current_category"] = get_product_category(slug)
+        context['sort_type'] = self.sort_type
         return context
 
-    def get_queryset(self):
+    def get_queryset(self, **kwargs):
         slug = self.kwargs.get("slug")
         queryset = get_category_products(slug)
-        return queryset
+        
+        sort_type = self.request.GET.get('sort_type')
+        match sort_type:
+            case None:
+                sort_type = '0'
+            case '1':
+                self.ordering = ('price',)
+            case '2':
+                self.ordering = ('-price',)
+
+        self.sort_type = sort_type
+        self.queryset = queryset
+        return super().get_queryset(**kwargs)
 
 
 # ================================ Ajax ==================================

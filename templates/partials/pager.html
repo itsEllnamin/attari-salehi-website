@@ -5,7 +5,7 @@
         <!--Previous--> 
         {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?{{query_params}}&page={{page_obj.previous_page_number}}">قبلی</a>
+                <a class="page-link" onclick='addUrlPageParameter({{page_obj.previous_page_number}});'>قبلی</a>
             </li>
         {% else %}
             <li class="page-item disabled">
@@ -17,7 +17,7 @@
         <!--Hellip--> 
         {% if page_obj.number|add:'-4' > 1 %}
             <li class="page-item">
-                <a class="page-link" href="?{{query_params}}&page={{page_obj.number|add:'-5'}}">&hellip;</a>
+                <a class="page-link" onclick='addUrlPageParameter({{page_obj.number|add:'-5'}});'>&hellip;</a>
             </li>
         {% endif %}
         <!--end Hellip--> 
@@ -33,7 +33,7 @@
                 </li>
             {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
                 <li class="page-item">
-                    <a class="page-link" href="?{{query_params}}&page={{i}}">{{i}}</a>
+                    <a class="page-link" onclick='addUrlPageParameter({{i}});'>{{i}}</a>
                 </li>
             {% endif %}
         {% endfor %}
@@ -42,7 +42,7 @@
         <!--Hellip--> 
         {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
             <li class="page-item">
-                <a class="page-link" href="?{{query_params}}&page={{page_obj.number|add:'5'}}">&hellip;</a>
+                <a class="page-link" onclick='addUrlPageParameter({{page_obj.number|add:"5"}});'>&hellip;</a>
             </li>
         {% endif %}
         <!--end Hellip--> 
@@ -50,7 +50,7 @@
         <!--Next--> 
         {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?{{query_params}}&page={{page_obj.next_page_number}}">بعدی</a>
+                <a class="page-link" onclick='addUrlPageParameter({{page_obj.next_page_number}});'>بعدی</a>
             </li>
         {% else %}
             <li class="page-item disabled">
