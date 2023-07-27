@@ -7,6 +7,8 @@ from django.contrib.auth.models import (
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.core.validators import RegexValidator
+from utils import FileManager
+
 
 
 class CustomUserManager(BaseUserManager):
@@ -72,5 +74,20 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.name + " " + self.family
 
     class Meta:
-        verbose_name = "کاربر"
-        verbose_name_plural = "کاربران"
+        verbose_name = _("کاربر")
+        verbose_name_plural = _("کاربران")
+
+
+class Customer(models.Model):
+    user = models.OneToOneField(CustomUser, models.CASCADE, primary_key=True)
+    phone_number = models.CharField(_('تلفن ثابت'), max_length=11, null=True, blank=True)
+    address = models.TextField(_('آدرس'), null=True, blank=True)
+    file_uploader = FileManager('images', 'accounts', 'customer')
+    image = models.ImageField(_('تصویر پروفایل'),upload_to=file_uploader.upload_to, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.user}'
+    
+    class Meta:
+        verbose_name = _('مشتری')
+        verbose_name_plural = _('مشتریان')

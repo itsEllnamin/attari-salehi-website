@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView
 from django.http import HttpResponse, JsonResponse
-from .models import Product, ProductCategory, FeatureDigitalValue
+from .models import Product, ProductCategory, FeatureDigitalValue, Feature
 from .filters import ProductFilter
 from django.db.models import Count, Q, Max, Min
 from django.views import View

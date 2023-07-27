@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.accounts',
     'apps.products',
+    'apps.orders',
     'django_render_partial',
     'django.contrib.humanize',
     'ckeditor',
