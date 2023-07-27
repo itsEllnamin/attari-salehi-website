@@ -27,116 +27,33 @@
                                 <!-- .megamenu -->
                                 <div class="megamenu">
                                     <div class="row">
-                                        <div class="col-4">
-                                            <ul class="megamenu__links megamenu__links--level--0">
-                                                <li class="megamenu__item megamenu__item--with-submenu">
-                                                    <a href="">کالای دیجیتال</a>
-                                                    <ul
-                                                        class="megamenu__links megamenu__links--level--1">
-                                                        <li class="megamenu__item">
-                                                            <a href="product-list.html">موبایل</a>
-                                                            <ul>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">لوازم جانبی</a>
-                                                                </li>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">گوشی</a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li class="megamenu__item">
-                                                            <a href="#">دوربین</a>
-                                                        </li>
-                                                        <li class="megamenu__item">
-                                                            <a href="#">لپ تاپ</a>
-                                                        </li>
-                                                        <li class="megamenu__item">
-                                                            <a href="#">سخت افزار کامپیوتر</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-4">
-                                            <ul class="megamenu__links megamenu__links--level--0">
-                                                <li class="megamenu__item megamenu__item--with-submenu">
-                                                    <a href="">مد و پوشاک</a>
-                                                    <ul
-                                                        class="megamenu__links megamenu__links--level--1">
-                                                        <li class="megamenu__item">
-                                                            <a href="#">مردانه</a>
-                                                            <ul>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">پیراهن</a>
-                                                                </li>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">شلوار</a>
-                                                                </li>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">کفش</a>
+                                        {% for root_category in root_categories %}
+                                            <div class="col-4">
+                                                <ul class="megamenu__links megamenu__links--level--0">
+                                                    <li class="megamenu__item megamenu__item--with-submenu">
+                                                        <a href="">{{root_category.title}}</a>
+                                                        {% for category in root_category.subsets.all %}
+                                                            <ul class="megamenu__links megamenu__links--level--1">
+                                                                <li class="megamenu__item">
+                                                                    {% if category.subsets.count == 0 %}
+                                                                        <a href="{{category.get_absolute_url}}">{{category.title}}</a>
+                                                                    {% else %}
+                                                                        <a href="">{{category.title}}</a>
+                                                                    {% endif %}
+                                                                    {% for child_category in category.subsets.all %}
+                                                                        <ul>
+                                                                            <li class="megamenu__links--level--2">
+                                                                                <a href="{{child_category.get_absolute_url}}">{{child_category.title}}</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    {% endfor %}
                                                                 </li>
                                                             </ul>
-                                                        </li>
-                                                        <li class="megamenu__item">
-                                                            <a href="#">زنانه</a>
-                                                            <ul>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">پیراهن</a>
-                                                                </li>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">شلوار</a>
-                                                                </li>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">کفش</a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li class="megamenu__item">
-                                                            <a href="#">بچه گانه</a>
-                                                        </li>
-
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-4">
-                                            <ul class="megamenu__links megamenu__links--level--0">
-                                                <li class="megamenu__item megamenu__item--with-submenu">
-                                                    <a href="">مواد غذایی</a>
-                                                    <ul
-                                                        class="megamenu__links megamenu__links--level--1">
-                                                        <li class="megamenu__item">
-                                                            <a href="#">کالای اساسی و خواربار</a>
-                                                            <ul>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">برنج</a>
-                                                                </li>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">قند</a>
-                                                                </li>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">سایر</a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li class="megamenu__item">
-                                                            <a href="#">نوشیدنی</a>
-                                                            <ul>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">چای</a>
-                                                                </li>
-                                                                <li class="megamenu__links--level--2">
-                                                                    <a href="#">دمنوش</a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-
-
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-
+                                                        {% endfor %}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <!-- .megamenu / end -->
@@ -164,11 +81,11 @@
                                 <!-- .menu / end -->
                             </div>
                         </li>
-                        <li class="nav-links__item nav-links__item--with-submenu">
+                        {% comment %} <li class="nav-links__item nav-links__item--with-submenu">
                             <a href="blog.html">
                                 <span><i class="fa fa-newspaper"></i>&nbsp; بلاگ</span>
                             </a>
-                        </li>
+                        </li> {% endcomment %}
 
                     </ul>
                 </div>
@@ -203,10 +120,10 @@
                         </a>
                     </div>
                     <div class="indicator">
-                        <a href="cart.html" class="indicator__button">
+                        <a href="{% url 'orders:shop_cart' %}" class="indicator__button">
                             <span class="indicator__area">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span class="indicator__value">3</span>
+                                <span class="indicator__value" id='shop_cart_count'>0</span>
                             </span>
                         </a>
                     </div>

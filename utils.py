@@ -56,3 +56,14 @@ class FileManager():
             files = os.listdir(folder_path)
             if  len(files) == 0  :
                 os.rmdir(folder_path)
+
+
+def factor_details(total_price, order_discount=0):
+    delivery_cost = 25000
+    if  total_price >= 500000 :
+        delivery_cost = 0
+    tax  =  int(0.09 * (total_price+delivery_cost))
+    final_price  =  total_price + delivery_cost + tax
+    if  order_discount > 0  :
+        final_price  =  final_price - (int(final_price*order_discount/100))
+    return delivery_cost, tax, final_price

@@ -49,6 +49,11 @@ class ProductCategory(models.Model):
     def get_absolute_url(self):
         return reverse("products:product_category", kwargs={"slug": self.slug})
 
+    # برگرداندن دسته‌بندی‌های ریشه 
+    @classmethod
+    def get_root_categories(cls): 
+        return cls.objects.filter(subset_of=None, is_active=True)
+
     def __str__(self):
         return self.title
 

@@ -79,7 +79,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(CustomUser, models.CASCADE, primary_key=True)
+    user = models.OneToOneField(CustomUser, models.CASCADE, primary_key=True, verbose_name=_("کاربر"))
     phone_number = models.CharField(_('تلفن ثابت'), max_length=11, null=True, blank=True)
     address = models.TextField(_('آدرس'), null=True, blank=True)
     file_uploader = FileManager('images', 'accounts', 'customer')

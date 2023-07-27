@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, Customer
 from .forms import UserCreationForm, UserChangeForm
 
 
@@ -23,3 +23,9 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {'fields':('mobile_number', 'email', 'name', 'family', 'password1', 'password2'),}),
     )
+    
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ['user', 'phone_number']
+    

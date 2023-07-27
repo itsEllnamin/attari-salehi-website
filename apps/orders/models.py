@@ -33,6 +33,8 @@ class OrderStatus(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, cascade, verbose_name=_('مشتری'), related_name='orders')
+    order_status = models.ForeignKey(OrderStatus, cascade, verbose_name=_('وضعیت سفارش'), related_name='orders')
+    payment_type = models.ForeignKey(PaymentType, cascade, verbose_name=_('روش پرداخت'), related_name='orders')
     register_datetime = models.DateTimeField(_("تاریخ ثبت سفارش"), default=timezone.now)
     update_datetime = models.DateTimeField(_("تاریخ آخرین ویرایش"), auto_now=True)
     is_finally = models.BooleanField(default=False, verbose_name='نهایی شده')
