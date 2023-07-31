@@ -76,10 +76,10 @@
                                         <th>حمل و نقل</th>
                                         <td>{{delivery_cost|intcomma:False}} تومان</td>
                                     </tr>
-                                    <tr>
+                                    {% comment %} <tr>
                                         <th>مالیات</th>
                                         <td>{{tax|intcomma:False}} تومان</td>
-                                    </tr>
+                                    </tr> {% endcomment %}
                                 </tbody>
                                 <tfoot class="cart__totals-footer">
                                     <tr>
@@ -87,7 +87,7 @@
                                         <td>{{final_price|intcomma:False}} تومان</td>
                                     </tr>
                                 </tfoot>
-                            </table><a class="btn btn-primary btn-xl btn-block cart__checkout-button" href="">ادامه خرید</a>
+                            </table><a class="btn btn-primary btn-xl btn-block cart__checkout-button" href="{% url 'orders:create_order' %}">ادامه خرید</a>
                         </div>
                     </div>
                 </div>

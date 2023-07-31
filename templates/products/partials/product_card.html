@@ -14,7 +14,14 @@
             </div>
         </div>
         <div class="product-card__actions">
-            <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+            {% if product.price > product.get_discounted_price %}
+                <div class="product-card__prices">
+                    <span class="product-card__new-price">{{product.get_discounted_price|intcomma:False}} تومان</span> 
+                    <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
+                </div>
+            {% else %}
+                <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+            {% endif %}
             <div class="product-card__buttons">
                 <button class="btn btn-primary product-card__addtocart" onclick="addToShopCart({{product.id}}, 1);">
                     افزودن به سبد
@@ -51,7 +58,14 @@
         </div>
         <div class="product-card__actions">
             <div class="product-card__availability">موجودی: <span class="text-success">موجود در انبار</span></div>
-            <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+            {% if product.price > product.get_discounted_price %}
+                <div class="product-card__prices">
+                    <span class="product-card__new-price">{{product.get_discounted_price|intcomma:False}} تومان</span> 
+                    <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
+                </div>
+            {% else %}
+                <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+            {% endif %}
             <div class="product-card__buttons">
                 <button class="btn btn-primary product-card__addtocart" onclick="addToShopCart({{product.id}}, 1);">افزودن به سبد</button>
             </div>
@@ -66,7 +80,14 @@
         </div>
         <div class="widget-products__info">
             <div class="widget-products__name"><a href="{{product.get_absolute_url}}">{{product.name}}</a></div>
-            <div class="widget-products__prices">{{product.price|intcomma:False}} تومان</div>
+            {% if product.price > product.get_discounted_price %}
+                <div class="product-card__prices">
+                    <span class="product-card__new-price">{{product.get_discounted_price|intcomma:False}} تومان</span> 
+                    <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
+                </div>
+            {% else %}
+                <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+            {% endif %}
         </div>
     </div>
 {% elif type == 'big' %}

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.products',
     'apps.orders',
+    'apps.discounts',
+    'apps.payments',
     'django_render_partial',
     'django.contrib.humanize',
     'ckeditor',
@@ -217,3 +219,10 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+
+# Zarinpal
+# https://www.zarinpal.com/
+
+MERCHANT  =  "00000000-0000-0000-0000-000000000000"
+SANDBOX  =  True

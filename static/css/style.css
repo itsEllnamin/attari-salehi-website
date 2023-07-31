@@ -5078,7 +5078,6 @@ screen and (-ms-high-contrast:active) {
 	justify-content: space-between
 }
 .cart__coupon-form {
-	width: calc(50% - 15px);
 	display: -ms-flexbox;
 	display: flex
 }

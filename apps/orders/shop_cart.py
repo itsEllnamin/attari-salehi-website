@@ -13,7 +13,7 @@ class ShopCart:
     def add(self, product, quantity):
         product_id = str(product.id)
         if product_id not in self.shop_cart:
-            self.shop_cart[product_id] = {'qty':0, 'price':product.price, }#'discounted_price':product.get_discounted_price()}
+            self.shop_cart[product_id] = {'qty':0, 'price':product.price, 'discounted_price':product.get_discounted_price()}
         self.shop_cart[product_id]['qty'] += int(quantity)
         self.count = len(self.shop_cart)
         self.save()
@@ -26,10 +26,8 @@ class ShopCart:
         self.save()
     
     def update(self, product_id_list, qty_list):
-        for i in range (len(product_id_list)):
-            product_id = product_id_list[i]
-            qty = int(qty_list[i])
-            self.shop_cart[product_id]['qty'] = qty
+        for product_id, qty  in zip(product_id_list, qty_list):
+            self.shop_cart[product_id]['qty'] = int(qty)
         self.save()
         
     def __iter__(self):
@@ -41,7 +39,7 @@ class ShopCart:
             shop_cart[str(product.id)]['product'] = product
             
         for value in shop_cart.values():
-            value['total_price']  =  value['price'] * value['qty']
+            value['total_price']  =  value['discounted_price'] * value['qty']
             yield value
 
     def calc_total_price(self):

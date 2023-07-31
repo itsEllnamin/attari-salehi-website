@@ -4,6 +4,7 @@ from utils import FileManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
+from datetime import datetime
 
 
 app_name = "product_app"
@@ -133,6 +134,22 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("products:product", kwargs={"slug": self.slug})
+    
+    # برگرداندن قیمت نهایی کالا با احتساب تخفیف‌ سبد تخفیف
+    def get_discounted_price(self):
+        list1 = []
+        disount_details = self.discount_basket_details.all()
+        for disount_detail in disount_details:
+            if  ((db:=disount_detail.discount_basket).is_active  and
+                db.start_datetime <= datetime.now()  and
+                datetime.now() <= db.end_datetime):
+                list1.append (db.discount_percent)
+        discount = 0
+        if  len(list1) > 0  :
+            discount = max(list1)
+        discount_amount  =  self.price * discount / 100
+        discounted_price  =  self.price - int(discount_amount)
+        return discounted_price 
 
     def __str__(self):
         return self.name
