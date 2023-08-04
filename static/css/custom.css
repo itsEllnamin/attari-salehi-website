@@ -657,3 +657,60 @@ footer{
 .shop_cart_quantity{
 	width: 60px;
 }
+.scoring{
+	display: flex;
+	justify-content: space-between !important;
+}
+.highlight_green{
+	color: #1E8A4F;
+}
+.scored-star-wrapper {
+  /* transform: translate(-60%, -110%); */
+  direction: rtl;
+}
+.scored-star-wrapper span {
+  color: #707070;
+  text-decoration: none;
+  margin: 4px;
+}
+.star-wrapper {
+  /* transform: translate(-60%, -110%); */
+  direction: ltr;
+}
+.star-wrapper a {
+  color: #707070;
+  text-decoration: none;
+  transition: all 0.5s;
+  margin: 4px;
+}
+.star-wrapper a:hover {
+  color: gold;
+  transform: scale(1.3);
+}
+.checked{
+  color: red;
+}
+.star-checked{
+  color: gold !important;
+}
+.shopping-checked{
+  color: blue ;
+}
+.s1:hover ~ a {
+  color: gold;
+}
+.s2:hover ~ a {
+  color: gold;
+}
+.s3:hover ~ a {
+  color: gold;
+}
+.s4:hover ~ a {
+  color: gold;
+}
+.s5:hover ~ a {
+  color: gold;
+}
+.disable{
+  pointer-events: none;
+}

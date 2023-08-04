@@ -14,32 +14,44 @@
             </div>
         </div>
         <div class="product-card__actions">
-            {% if product.price > product.get_discounted_price %}
-                <div class="product-card__prices">
-                    <span class="product-card__new-price">{{product.get_discounted_price|intcomma:False}} تومان</span> 
-                    <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
-                </div>
+            {% if product.get_quantity_in_warehouse <= 0 %}
+                <span style="color:red;">ناموجود</span>     
             {% else %}
-                <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+                {% if product.price > product.get_discounted_price %}
+                    <div class="product-card__prices">
+                        <span class="product-card__new-price">{{product.get_discounted_price|intcomma:False}} تومان</span> 
+                        <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
+                    </div>
+                {% else %}
+                    <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+                {% endif %}
+                <div class="product-card__buttons">
+                    {% if product.get_quantity_in_warehouse > 0 %}
+                        <button class="add_button_{{product.id}} btn btn-primary product-card__addtocart" onclick="shopCarts({{product.id}});">
+                            افزودن به سبد
+                        </button>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        {% if product.is_user_favorite %}
+                            <script>
+                                likeFavoriteProducts({{product.id}});
+                            </script>
+                        {% endif %}
+                            <button class="btn btn-light" onclick="favorites({{product.id}});">
+                                <span class="fa fa-heart" name="like-{{product.id}}"></span>
+                            </button>
+                    {% endif %}
+                    {% if product.get_quantity_in_warehouse > 0 %}
+                        <script>
+                            likeShopCartProducts({{product.id}});
+                        </script>
+                        <button onclick="shopCarts({{product.id}});"
+                            class="btn btn-light">
+                            <i class="fa fa-shopping-cart" name="shopping-cart-{{product.id}}"></i>
+                        </button>
+                    {% endif %}
+                </div>
             {% endif %}
-            <div class="product-card__buttons">
-                <button class="btn btn-primary product-card__addtocart" onclick="addToShopCart({{product.id}}, 1);">
-                    افزودن به سبد
-                </button>
-                <button
-                    class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-                    type="button">
-                    <i class="fa fa-heart"></i>
-                    <span
-                        class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-                </button>
-                <button onclick="addToShopCart({{product.id}}, 1);"
-                    class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist">
-                    <i class="fa fa-shopping-cart" ></i>
-                    <span
-                        class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-                </button>
-            </div>
         </div>
     </div>
 {% elif type == 'normal' %}
@@ -57,18 +69,22 @@
 
         </div>
         <div class="product-card__actions">
-            <div class="product-card__availability">موجودی: <span class="text-success">موجود در انبار</span></div>
-            {% if product.price > product.get_discounted_price %}
-                <div class="product-card__prices">
-                    <span class="product-card__new-price">{{product.get_discounted_price|intcomma:False}} تومان</span> 
-                    <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
-                </div>
+            {% if product.get_quantity_in_warehouse <= 0 %}
+                {% comment %} <div class="product-card__availability">موجودی: <span class="text-success">موجود در انبار</span></div> {% endcomment %}
+                <span style="color:red;">ناموجود</span>     
             {% else %}
-                <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+                {% if product.price > product.get_discounted_price %}
+                    <div class="product-card__prices">
+                        <span class="product-card__new-price">{{product.get_discounted_price|intcomma:False}} تومان</span> 
+                        <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
+                    </div>
+                {% else %}
+                    <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+                {% endif %}
+                <div class="product-card__buttons">
+                    <button class="btn btn-primary product-card__addtocart" onclick="addToShopCart({{product.id}}, 1);">افزودن به سبد</button>
+                </div>
             {% endif %}
-            <div class="product-card__buttons">
-                <button class="btn btn-primary product-card__addtocart" onclick="addToShopCart({{product.id}}, 1);">افزودن به سبد</button>
-            </div>
         </div>
     </div>
 {% elif type == 'small' %}
@@ -80,13 +96,17 @@
         </div>
         <div class="widget-products__info">
             <div class="widget-products__name"><a href="{{product.get_absolute_url}}">{{product.name}}</a></div>
-            {% if product.price > product.get_discounted_price %}
-                <div class="product-card__prices">
-                    <span class="product-card__new-price">{{product.get_discounted_price|intcomma:False}} تومان</span> 
-                    <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
-                </div>
+            {% if product.get_quantity_in_warehouse <= 0 %}
+                <span style="color:red;">ناموجود</span>     
             {% else %}
-                <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+                {% if product.price > product.get_discounted_price %}
+                    <div class="product-card__prices">
+                        <span class="product-card__new-price">{{product.get_discounted_price|intcomma:False}} تومان</span> 
+                        <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
+                    </div>
+                {% else %}
+                    <div class="product-card__prices">{{product.price|intcomma:False}} تومان</div>
+                {% endif %}
             {% endif %}
         </div>
     </div>

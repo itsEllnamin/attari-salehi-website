@@ -38,16 +38,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.main',
     'apps.accounts',
     'apps.products',
     'apps.orders',
     'apps.discounts',
     'apps.payments',
+    'apps.warehouses',
+    'apps.sides',
     'django_render_partial',
     'django.contrib.humanize',
     'ckeditor',
     'ckeditor_uploader',
     'django_filters',
+    'jalali_date',
     
 ]
 
@@ -77,6 +81,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'apps.main.views.media_admin',
                 'apps.main.views.navbar_categories',
+                'apps.main.views.request',
             ],
         },
     },

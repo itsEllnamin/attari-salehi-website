@@ -11,4 +11,9 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('remember_password/', RememberPasswordView.as_view(), name='remember_password'),
     path('change_password/', ChangePasswordView.as_view(), name='change_password'),
+    path('user_panel/', UserPanelView.as_view(), name='user_panel'),
+    path('show_last_orders/', show_last_orders, name='last_orders'),
+    path('show_payments/', show_payments, name='show_payments'),
+    path('update_profile/', UpdateProfileView.as_view(), name='update_profile'),
+    
 ]

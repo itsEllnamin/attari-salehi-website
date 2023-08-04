@@ -1,0 +1,103 @@
+{% load render_partial %}
+{% load jalali_tags %}
+<div class="product-tabs__pane" id="tab-reviews">
+    <div class="reviews-view">
+        {% if comment_count > 0 %}
+            <div class="reviews-view__list">
+                <h3 class="reviews-view__header">دیدگاه های مشتریان</h3>
+                <div class="reviews-list">
+                    <ol class="reviews-list__content">
+                        {% for comment in product.comments.all %}
+                            {% if comment.is_active %}
+                                {% if not comment.reply_to %}
+                                    <li class="reviews-list__item">
+                                        <div class="review">
+                                            <div class="review__avatar">
+                                                {% if comment.user.customer.image %}
+                                                    <img src="{{media_url}}{{comment.user.customer.image}}" alt="{{comment.user.name}}">
+                                                {% else %}
+                                                    <img src="{{media_url}}images/unknown.png" alt="{{comment.user.name}}">
+                                                {% endif %}
+                                            </div>
+                                            <div class="review__content">
+                                                <div class="review__author">{{comment.user.name}}</div>
+                                                <div class="review__text">{{comment.text}}</div>
+                                                <div class="review__date">{{comment.register_datetime|to_jalali:'%H:%M - %y/%m/%d'}}</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {% if user.is_authenticated %}
+                                                <div>
+                                                    <a class="btn btn-info" id="btn_{{comment.id}}" onclick="showCreateCommentForm({{product.id}}, {{comment.id}}, '{{product.slug}}');">
+                                                        پاسخ
+                                                    </a>
+                                                </div>
+                                                <div id="comment_form_{{comment.id}}"></div>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+                                    {% for item in comment.replies.all %}
+                                        {% if item.is_active %}
+                                            <li class="reviews-list__item reviews-list__item-child">
+                                                <div class="review">
+                                                    <div class="review__avatar">
+                                                        {% if item.user.customer.image %}
+                                                            <img src="{{media_url}}{{comment.user.customer.image}}" alt="{{comment.user.name}}">
+                                                        {% else %}
+                                                            <img src="{{media_url}}images/unknown.png" alt="{{comment.user.name}}">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="review__content">
+                                                        <div class="review__author">{{item.user.name}}</div>
+                                                        <div class="review__text">{{item.text}}</div>
+                                                        <div class="review__date">{{comment.register_datetime|to_jalali:'%H:%M - %y/%m/%d'}}</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </ol>
+                    {% comment %} <div class="reviews-list__pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link page-link--with-arrow" href="" aria-label="Previous">
+                                    <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true" width="8px" height="13px">
+                                        <use xlink:href="images/sprite.svg#arrow-rounded-left-8x13"></use>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="">1</a></li>
+                            <li class="page-item active"><a class="page-link" href="">2 <span class="sr-only">(کنونی)</span></a></li>
+                            <li class="page-item"><a class="page-link" href="">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link page-link--with-arrow" href="" aria-label="Next">
+                                    <svg class="page-link__arrow page-link__arrow--right" aria-hidden="true" width="8px" height="13px">
+                                        <use xlink:href="images/sprite.svg#arrow-rounded-right-8x13"></use>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div> {% endcomment %}
+                </div>
+            </div>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <h3 class="reviews-view__header">دیدگاه خود را بنویسید</h3>
+            <div class="row">
+                <div class="col-12 col-lg-9 col-xl-8">
+                    {% render_partial 'sides:create_comment' slug=product.slug %}
+                </div>
+            </div>
+        {% else %}
+            <h5>برای درج دیدگاه خود باید 
+                <a href="{% url 'accounts:login' %}?next=/products/product_details/{{product.slug}}/">ورود</a>
+                یا
+                <a href="{% url 'accounts:register' %}?next=/products/product_details/{{product.slug}}/">ثبت نام</a>
+                کنید
+            </h5>
+        {% endif %}
+    </div>
+</div>

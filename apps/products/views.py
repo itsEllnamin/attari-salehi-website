@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import TemplateView, ListView, DetailView
-from django.http import HttpResponse, JsonResponse
-from .models import Product, ProductCategory, FeatureDigitalValue, Feature
+from django.views.generic import ListView, DetailView
+from django.http import JsonResponse, HttpResponse
+from apps.orders.shop_cart import ShopCart
+from .models import Product, ProductCategory, FeatureDigitalValue
 from .filters import ProductFilter
 from django.db.models import Count, Q, Max, Min
-from django.views import View
 from utils import partial_path, page_path
 from django_filters.views import FilterView
 from django.db.models import QuerySet
@@ -222,6 +222,13 @@ class ProductView(ActiveDetailView):
     model = Product
     context_object_name = "product"
     template_name = page_path(appname, "product")
+    
+    def get_object(self, queryset=None):
+        product = super().get_object(queryset)
+        comment_count = product.comments.filter(is_active=True).count()
+        self.extra_context = {"comment_count": comment_count}
+        return product
+
 
 class ProductCategoryView(ActiveFilterView):
     categories = (
@@ -283,3 +290,10 @@ def get_feature_digital_values(request):
         feature_values = FeatureDigitalValue.objects.filter(feature_id=feature_id)
         res = {fv.value: fv.id for fv in feature_values}
         return JsonResponse(data=res, safe=False)
+
+def is_at_user_shopcart(request):
+    product_id = request.GET.get("productId")
+    shop_cart = ShopCart(request)
+    flag = shop_cart.shop_cart.get(product_id, None)
+    if flag:  flag = product_id
+    return HttpResponse(flag)

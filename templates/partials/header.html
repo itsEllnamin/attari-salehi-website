@@ -13,7 +13,7 @@
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
                             <button class="topbar-dropdown__btn" type="button">
-                                <a href="UserPanel/user-dashboard.html" class="topbar-link">پنل کاربری</a>
+                                <a href="{% url 'accounts:user_panel' %}" class="topbar-link">پنل کاربری</a>
                                 <i class="fa fa-user"></i>
                             </button>
                         </div>
@@ -31,8 +31,8 @@
             </div>
             <div class="site-header__search">
                 <div class="search">
-                    <form class="search__form" action="">
-                        <input class="search__input" name="search" placeholder="چی می‌خوای؟"
+                    <form class="search__form" action="{% url 'sides:search' %}">
+                        <input class="search__input" name="q" placeholder="جستجوی محصول"
                             aria-label="Site search" type="text" autocomplete="off">
                         <button class="search__button" type="submit">
                             <i class="fa fa-search"></i>

@@ -46,4 +46,4 @@ class ShopCart:
         sum = 0
         for item in self:
             sum += item['total_price']
-        return sum 
+        return sum

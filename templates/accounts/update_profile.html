@@ -1,0 +1,30 @@
+{% extends 'userpaneltemplate.html' %}
+
+{% block title %}ویراش پروفایل{% endblock title %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h5>ویرایش پروفایل</h5></div>
+        <div class="card-divider"></div>
+        <div class="card-body">
+            <div class="row no-gutters">
+                <form class="col-12 col-lg-7 col-xl-6" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    {% if image %}
+                        <img class="img-100x100" src="{{media_url}}{{image}}" alt="{{form.name.value}} {{form.family.value}}">
+                    {% else %}
+                        <img class="img-100x100" src="{{media_url}}images/customer/nophoto.png" alt="{{form.name.value}} {{form.family.value}}">
+                    {% endif %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary mt-4">
+                            ویرایش
+                        </button>
+                        <a href="{% url 'accounts:user_panel' %}" class="btn btn-info mt-4">انصراف</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

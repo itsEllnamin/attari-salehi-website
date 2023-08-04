@@ -30,9 +30,9 @@
     /*
     // initialize custom numbers
     */
-    $(function () {
-        $('.input-number').customNumber();
-    });
+    // $(function () {
+    //     $('.input-number').customNumber();
+    // });
 
 
     /*
@@ -469,7 +469,7 @@
                 }
             });
 
-            $('.input-number', modal).customNumber();
+            // $('.input-number', modal).customNumber();
         });
 
         $('.product-card__quickview').on('click', function() {

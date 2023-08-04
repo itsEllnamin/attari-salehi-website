@@ -74,6 +74,8 @@ def shop_cart_status(request):
 
 
 class CreateOrderView(LoginRequiredMixin, RedirectView):
+    permanent = True
+    
     def get_redirect_url(self, *args, **kwargs):
         request = self.request
         try:

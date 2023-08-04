@@ -6,6 +6,7 @@ app_name = 'products'
 
 urlpatterns = [
     path('ajax_admin/', views.get_feature_digital_values, name='feature_digital_values'),
+    path('is_at_user_shopcart/', views.is_at_user_shopcart, name='is_at_user_shopcart'),
     path('cheapest/', views.CheapestProductsView.as_view(), name='cheapest'),
     path('newest/', views.NewestProductsView.as_view(), name='newest'),
     path('categories/', views.CategoriesView.as_view(), name='categories'),

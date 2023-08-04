@@ -1,57 +1,61 @@
 {% load humanize %}
 <div class="product__sidebar">
-    <div class="product__availability">موجودی: <span class="text-success">موجود در انبار</span></div>
-    {% if product.price > product.get_discounted_price %}
-        <div class="product-card__prices">
-            <span class="product-card__new-price">{{product.get_discounted_price|intcomma:False}} تومان</span> 
-            <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
-        </div>
+    {% if product.get_quantity_in_warehouse <= 0 %}
+        <div class="product__availability">موجودی: <span class="text-danger">ناموجود</span></div>
     {% else %}
-        <div class="product__prices">{{product.price|intcomma:False}} تومان</div>
-    {% endif %}
-    <!-- .product__options -->
-    <div class="product__options">
-        <!-- <div class="form-group product__option">
-            <label class="product__option-label">رنگ</label>
-            <div class="input-radio-color">
-                <div class="input-radio-color__list">
-                    <label class="input-radio-color__item input-radio-color__item--white" style="color: #fff;" data-toggle="tooltip" title="White">
-                        <input type="radio" name="color"> <span></span></label>
-                    <label class="input-radio-color__item" style="color: #ffd333;" data-toggle="tooltip" title="Yellow">
-                        <input type="radio" name="color"> <span></span></label>
-                    <label class="input-radio-color__item" style="color: #ff4040;" data-toggle="tooltip" title="Red">
-                        <input type="radio" name="color"> <span></span></label>
-                    <label class="input-radio-color__item input-radio-color__item--disabled" style="color: #4080ff;" data-toggle="tooltip" title="Blue">
-                        <input type="radio" name="color" disabled> <span></span></label>
-                </div>
+        <div class="product__availability">موجودی: <span class="text-success">موجود در انبار</span></div>
+        {% if product.price > product.get_discounted_price %}
+            <div class="product-card__prices">
+                <span class="product__prices product__new-prices">{{product.get_discounted_price|intcomma:False}} تومان</span> 
+                <span class="product-card__old-price">{{product.price|intcomma:False}} تومان</span>
             </div>
-        </div> -->
-        <div class="form-group product__option">
-            <label class="product__option-label">ویژگی‌ها</label>
-            <div class="input-radio-label">
-                <div class="input-radio-label__list">
-                    {% for product_feature in product.product_features.all %}
-                        <label>
-                            <input type="radio" name="material"> 
-                            <span>{{product_feature.feature}} : {{product_feature.digital_value}}</span>
-                        </label>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        <div class="form-group product__option">
-            <label class="product__option-label" for="product-quantity">تعداد</label>
-            <div class="product__actions">
-                <div class="product__actions-item">
-                    <div class="input-number product__quantity">
-                        <input id="product-quantity" class="form-control form-control-lg" type="number" min="1" value="1">
+        {% else %}
+            <div class="product__prices">{{product.price|intcomma:False}} تومان</div>
+        {% endif %}
+        <!-- .product__options -->
+        <div class="product__options">
+            <!-- <div class="form-group product__option">
+                <label class="product__option-label">رنگ</label>
+                <div class="input-radio-color">
+                    <div class="input-radio-color__list">
+                        <label class="input-radio-color__item input-radio-color__item--white" style="color: #fff;" data-toggle="tooltip" title="White">
+                            <input type="radio" name="color"> <span></span></label>
+                        <label class="input-radio-color__item" style="color: #ffd333;" data-toggle="tooltip" title="Yellow">
+                            <input type="radio" name="color"> <span></span></label>
+                        <label class="input-radio-color__item" style="color: #ff4040;" data-toggle="tooltip" title="Red">
+                            <input type="radio" name="color"> <span></span></label>
+                        <label class="input-radio-color__item input-radio-color__item--disabled" style="color: #4080ff;" data-toggle="tooltip" title="Blue">
+                            <input type="radio" name="color" disabled> <span></span></label>
                     </div>
                 </div>
-                <div class="product__actions-item product__actions-item--addtocart">
-                    <button class="btn btn-primary btn-lg" onclick="addToShopCart({{product.id}}, 0);">افزودن به سبد</button>
+            </div> -->
+            {% comment %} <div class="form-group product__option">
+                <label class="product__option-label">ویژگی‌ها</label>
+                <div class="input-radio-label">
+                    <div class="input-radio-label__list">
+                        {% for product_feature in product.product_features.all %}
+                            <label>
+                                <input type="radio" name="material"> 
+                                <span>{{product_feature.feature}} : {{product_feature.digital_value}}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div> {% endcomment %}
+            <div class="form-group product__option">
+                <label class="product__option-label" for="product-quantity">تعداد</label>
+                <div class="product__actions">
+                    <div class="product__actions-item">
+                        <div class="input-number product__quantity">
+                            <input id="product-quantity" class="form-control form-control-lg" type="number" min="1" value="1">
+                        </div>
+                    </div>
+                    <div class="product__actions-item product__actions-item--addtocart">
+                        <button class="btn btn-primary btn-lg" onclick="addToShopCart({{product.id}}, 0);">افزودن به سبد</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- .product__options / end -->
+        <!-- .product__options / end -->
+    {% endif %}
 </div>

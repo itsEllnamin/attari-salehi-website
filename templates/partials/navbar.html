@@ -91,7 +91,7 @@
                 </div>
                 <!-- .nav-links / end -->
                 <div class="nav-panel__indicators">
-                    <div class="indicator indicator--trigger--click">
+                    {% comment %} <div class="indicator indicator--trigger--click">
                         <button type="button" class="indicator__button">
                             <span class="indicator__area">
                                 <i class="fa fa-search"></i>
@@ -110,15 +110,17 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-                    <div class="indicator">
-                        <a href="wishlist.html" class="indicator__button">
-                            <span class="indicator__area">
-                                <i class="fa fa-heart"></i>
-                                <span class="indicator__value">0</span>
-                            </span>
-                        </a>
-                    </div>
+                    </div> {% endcomment %}
+                    {% if request.user.is_authenticated %}
+                        <div class="indicator">
+                            <a href="{% url 'sides:favorites' %}" class="indicator__button">
+                                <span class="indicator__area" id="heart_icon">
+                                    <i class="fa fa-heart"></i>
+                                    <span class="indicator__value" id="favorites_count">0</span>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
                     <div class="indicator">
                         <a href="{% url 'orders:shop_cart' %}" class="indicator__button">
                             <span class="indicator__area">

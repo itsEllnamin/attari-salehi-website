@@ -1,0 +1,10 @@
+<form action="{% url 'sides:create_comment' slug %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="review-text">دیدگاه شما</label>
+        {{form}}
+    </div>
+    <dir class="form-group mb-0">
+        <button type="submit" class="btn btn-primary btn-lg">ارسال نظر</button>
+    </dir>
+</form>

@@ -1,0 +1,16 @@
+{% extends 'maintemplate.html' %}
+{% load render_partial %}
+{% block title %}نتیجه جستجو{% endblock title %}
+
+{% block content %}
+    {% if products %}
+        &nbsp;
+        <h2 style="text-align: center;">نتیجه جستجو</h2>
+        &nbsp;
+        {% include 'products/partials/show_products.html' with ad=True type='row' search=True %}
+    {% else %}
+        <div class="container" style="padding: 100px;">
+            <h3 style="text-align: center; color: red;">کالایی یافت نشد</h3>
+        </div>
+    {% endif %}
+{% endblock content %}

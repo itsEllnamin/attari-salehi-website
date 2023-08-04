@@ -5,6 +5,9 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from datetime import datetime
+from django.db.models import Avg, Sum
+from middlewares.middlewares import RequestMiddleware
+
 
 
 app_name = "product_app"
@@ -150,6 +153,41 @@ class Product(models.Model):
         discount_amount  =  self.price * discount / 100
         discounted_price  =  self.price - int(discount_amount)
         return discounted_price 
+
+    # برگرداندن میانگین امتیازات محصول
+    def get_avg_score(self):
+        avg_score = self.scores.all().aggregate(Avg('score'))['score__avg']
+        if not avg_score:
+            avg_score = 0
+        return avg_score
+
+    # برگرداندن امتیازی که کاربر جاری به این کالا داده
+    def get_current_user_score(self):
+        request = RequestMiddleware(get_response=None)
+        request = request.thread_local.current_request
+        score = 0
+        user = self.scores.filter(user=request.user)
+        if  user.count() > 0  :
+            score = user[0].score
+        return score
+
+    def is_user_favorite(self):
+        request = RequestMiddleware(get_response=None)
+        request = request.thread_local.current_request
+        flag = self.favorites.filter(user=request.user).exists()
+        return flag   
+
+    # تعداد موجودی کالا در انبار
+    def get_quantity_in_warehouse(self):
+        input = self.transactions.filter(type__title__contains='خرید').aggregate(Sum('qty'))
+        output = self.transactions.filter(type__title__contains='فروش').aggregate(Sum('qty'))
+        inputs = 0
+        if (inputs_sum:=input['qty__sum']):
+            inputs = inputs_sum
+        outputs = 0
+        if (outputs_sum:=output['qty__sum']):
+            outputs = outputs_sum
+        return inputs - outputs
 
     def __str__(self):
         return self.name

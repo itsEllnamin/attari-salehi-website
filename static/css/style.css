@@ -2016,6 +2016,9 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 .product-card__new-price {
 	color: #1E8A4F
 }
+.product__new-prices {
+	color: #1E8A4F !important;
+}
 .product-card__old-price {
 	color: #b3b3b3;
 	font-weight: 400;
@@ -9542,4 +9545,15 @@ screen and (-ms-high-contrast:active) {
 }
 a {
 	cursor: pointer;
+}
+.reviews-list__item-child {
+	background-color: beige;
+	width: 95%;
+	margin: 10px 5%;
+}
+.product-flexbox {
+	display: flex !important;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: wrap;
 }

@@ -1,0 +1,16 @@
+{% extends 'maintemplate.html' %}
+{% load render_partial %}
+{% block title %}علاقه‌مندی‌ها{% endblock title %}
+{% block content %}
+    <div class="site__body">
+        <div class="page-header">
+            <div class="page-header__container container">
+                <div class="page-header__breadcrumb">
+                </div>
+                <div class="page-header__title">
+                    <h1>علاقه‌مندی‌ها</h1></div>
+            </div>
+        </div>
+        {% render_partial 'sides:favorites_detail' %}
+    </div>
+{% endblock content %}

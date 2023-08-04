@@ -1,11 +1,14 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.views import View
 from django.contrib import messages as msg
 from django.contrib.auth import authenticate, login, logout
-from utils import create_random_code, send_sms, partial_path, page_path
-from .forms import RegisterForm, VerifyCodeForm, LoginForm, RememberPasswordForm, ChangePasswordForm
-from .models import CustomUser
-
+from utils import create_random_code, partial_path, send_sms, page_path
+from .forms import RegisterForm, VerifyCodeForm, LoginForm, RememberPasswordForm, ChangePasswordForm, UpdateProfileForm
+from .models import CustomUser, Customer
+from apps.payments.models import Payment
+from apps.orders.models import Order
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
 appname = 'accounts'
@@ -199,10 +202,10 @@ class RememberPasswordView(View):
 class ChangePasswordView(View):
     template_name = page_path(appname, 'change_password')
 
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect("main:index")
-        return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     if request.user.is_authenticated:
+    #         return redirect("main:index")
+    #     return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         form = ChangePasswordForm()
@@ -227,3 +230,92 @@ class ChangePasswordView(View):
         else:
             msg.error(request, 'اطلاعات واردشده معتبر نیست.', 'danger')
             return render(request, self.template_name, {'form':form})
+
+
+class UserPanelView(LoginRequiredMixin, View):
+    template_name = page_path(appname, 'userpanel')
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        try:
+            customer = Customer.objects.get(user=user)
+            user_info = {
+                'mobile_number': user.mobile_number,
+                'name': user.name,
+                'family': user.family,
+                'email': user.email,
+                'phone_number': customer.phone_number,
+                'address': customer.address,
+                'image': customer.image,
+            }
+        except Customer.DoesNotExist:
+            user_info = {
+                'name': user.name,
+                'family': user.family,
+                'email': user.email,
+            }
+        return render(request, self.template_name, user_info)
+
+
+@login_required
+def show_last_orders(request):
+    orders = Order.objects.filter(customer_id=request.user.id).order_by('-register_datetime')[:4]
+    return render(request, partial_path(appname, 'last_orders'), {'orders':orders})
+
+
+class UpdateProfileView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
+        try:
+            customer = Customer.objects.get(user=user)
+            initial_dict = {
+                'mobile_number': user.mobile_number,
+                'name': user.name,
+                'family': user.family,
+                'email': user.email,
+                'phone_number': customer.phone_number,
+                'address': customer.address,
+            }
+        except Customer.DoesNotExist:
+            initial_dict = {
+                'mobile_number': user.mobile_number,
+                'name': user.name,
+                'family': user.family,
+                'email': user.email,
+            }
+        form = UpdateProfileForm(initial=initial_dict)
+        return render(request, 'accounts/update_profile.html', {'form':form, 'image': customer.image})
+
+    def post(self, request):
+        form = UpdateProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = request.user
+            user.name = cd['name']
+            user.family = cd['family']
+            user.email = cd['email']
+            user.save()
+            try:
+                customer = Customer.objects.get(user=user)
+                customer.phone_number = cd['phone_number']
+                customer.address = cd['address']
+                customer.image = cd['image']
+                customer.save()
+            except Customer.DoesNotExist:
+                Customer.objects.create(
+                    user=user,
+                    phone_number = cd['phone_number'],
+                    address = cd['address'],
+                    image = cd['image']
+                )
+            msg.success(request, 'ویراش پروفایل با موفقیت انجام شد', 'success')
+            return redirect('accounts:user_panel')
+        else:
+            msg.error(request, 'اطلاعات وارد شده معتبر نمی‌باشد', 'danger')
+            return render(request, 'accounts/update_profile.html', {'form':form})
+            
+
+@login_required
+def show_payments(request):
+    payments = Payment.objects.filter(customer_id=request.user.id).order_by('-register_datetime')
+    return render(request, page_path(appname, 'payments'), {'payments':payments})
