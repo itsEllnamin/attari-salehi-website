@@ -5,11 +5,11 @@
         <form action="">
             <div class="filters-headbar">
                 <h4 class="widget__title">فیلترها</h4>
-                {% if feature_value_list or price_min or price_max %}
-                    <a href="{{current_category.get_absolute_url}}" class="btn-filter-state">
-                        <i class='fa fa-times'> حذف همه فیلترها</i>
-                    </a>
-                {% endif %}
+                <!--{% if feature_value_list or price_min or price_max %}-->
+                <!--    <a href="{{current_category.get_absolute_url}}" class="btn-filter-state">-->
+                <!--        <i class='fa fa-times'> حذف همه فیلترها</i>-->
+                <!--    </a>-->
+                <!--{% endif %}-->
             </div>
             <div class="widget-filters__list">
                 <div class="widget-filters__item">
@@ -278,7 +278,9 @@
             </div>
             <div class="widget-filters__actions d-flex">
                 <button class="btn btn-primary btn-sm">فیلتر</button>
-                <button class="btn btn-secondary btn-sm">بازنشانی</button>
+                {% if feature_value_list or price_min or price_max %}
+                    <a href="{{current_category.get_absolute_url}}" class="btn btn-secondary btn-sm">بازنشانی</a>
+                {% endif %}
             </div>
         </form>
     </div>

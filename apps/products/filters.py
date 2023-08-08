@@ -1,5 +1,5 @@
 import django_filters
-from .models import Product, FeatureDigitalValue
+from .models import FeatureDigitalValue
 
 
 class ProductFilter(django_filters.FilterSet):

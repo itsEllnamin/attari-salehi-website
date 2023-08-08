@@ -5,29 +5,28 @@
         <div class="site-header__topbar topbar">
             <div class="topbar__container container">
                 <div class="topbar__row">
-                    <div class="topbar__item topbar__item--link"><a class="topbar-link"
+                    {% comment %} <div class="topbar__item topbar__item--link"><a class="topbar-link"
                             href="about-us.html">درباره ما</a></div>
                     <div class="topbar__item topbar__item--link"><a class="topbar-link"
                             href="contact-us.html">تماس با ما</a></div>
-                    <div class="topbar__spring"></div>
-                    <div class="topbar__item">
-                        <div class="topbar-dropdown">
-                            <button class="topbar-dropdown__btn" type="button">
-                                <a href="{% url 'accounts:user_panel' %}" class="topbar-link">پنل کاربری</a>
-                                <i class="fa fa-user"></i>
-                            </button>
+                    <div class="topbar__spring"></div> {% endcomment %}
+                    {% if user.is_authenticated %}
+                        <div class="topbar__item">
+                            <div class="topbar-dropdown">
+                                <button class="topbar-dropdown__btn" type="button">
+                                    <a href="{% url 'accounts:user_panel' %}" class="topbar-link">پنل کاربری</a>
+                                    <i class="fa fa-user"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-
+                    {% endif %}
                 </div>
             </div>
         </div>
 
         <div class="site-header__middle container">
             <div class="site-header__logo">
-                <a href="{{media_url}}images/logo.png">
-                    <img class='logo' src="{{media_url}}images/logo.png" alt="logo">
-                </a>
+                <img class='logo' src="{{media_url}}images/logo.png" alt="logo">
             </div>
             <div class="site-header__search">
                 <div class="search">

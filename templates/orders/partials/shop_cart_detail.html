@@ -1,7 +1,7 @@
 <div class="cart block">
-    {% if shop_cart.count > 0 %}
-        {% load humanize %}
-        <div class="container" id='shop_cart_detail'>
+    <div class="container" id='shop_cart_detail'>
+        {% if shop_cart.count > 0 %}
+            {% load humanize %}
             <table class="cart__table cart-table">
                 <thead class="cart-table__head">
                     <tr class="cart-table__row">
@@ -57,7 +57,7 @@
                 </form>
                 <div class="cart__buttons"><a class="btn btn-primary cart__update-button" onclick="updateShopCart();">به روز رسانی سبد</a></div>
             </div>
-            
+        
             <!-- Factor -->
             <div class="row justify-content-end pt-5">
                 <div class="col-12 col-md-7 col-lg-6 col-xl-5">
@@ -87,13 +87,14 @@
                                         <td>{{final_price|intcomma:False}} تومان</td>
                                     </tr>
                                 </tfoot>
-                            </table><a class="btn btn-primary btn-xl btn-block cart__checkout-button" href="{% url 'orders:create_order' %}">ادامه خرید</a>
+                            </table>
+                            <a class="btn btn-primary btn-xl btn-block cart__checkout-button" href="{% url 'orders:create_order' %}">ادامه خرید</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    {% else %}
-        <h2>سبد خرید شما خالی می‌باشد</h2>
-    {% endif %}
+        {% else %}
+            <h2>سبد خرید شما خالی می‌باشد</h2>
+        {% endif %}
+    </div>
 </div>

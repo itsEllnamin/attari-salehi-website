@@ -117,6 +117,17 @@ function addScore(score, productId){
   });
 }
 
+// function setCategory(categoryTitle){
+//   $.ajax({
+//     type: 'POST',
+//     url: '/products/cheapest/',
+//     data: {categoryTitle: categoryTitle},
+//     success: function(response){
+//       $('.category_products').html(response['html']);
+//     }
+//   });
+// }
+
 
 /////////////////////////////////// Orders /////////////////////////////////////
 

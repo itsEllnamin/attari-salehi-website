@@ -9,7 +9,7 @@
                 <div class="page-header__breadcrumb">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">خانه</a>
+                            <li class="breadcrumb-item"><a href="{% url 'main:index' %}">خانه</a>
                                 /
                             </li>
                             <li class="breadcrumb-item">
@@ -44,7 +44,7 @@
                                             </span>
                                             <label class="form-check-label" for="login-remember">به خاطر سپاری</label>
                                         </div> {% endcomment %}
-                                        <small class="form-text text-muted"><a href="{% url 'accounts:remember_password' %}">فراموشی گذرواژه</a></small>
+                                        {% comment %} <small class="form-text text-muted"><a href="{% url 'accounts:remember_password' %}">فراموشی گذرواژه</a></small> {% endcomment %}
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-4">ورود</button>
                                 </form>

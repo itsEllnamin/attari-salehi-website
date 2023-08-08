@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.http import JsonResponse, HttpResponse
+from django.template.loader import render_to_string
 from apps.orders.shop_cart import ShopCart
 from .models import Product, ProductCategory, FeatureDigitalValue
 from .filters import ProductFilter
@@ -155,7 +156,7 @@ class BaseProductsView(ActiveListView):
 
     def get_queryset(self, **kwargs):
         qs = super().get_queryset(**kwargs)
-        return qs[:5]   
+        return qs[:5]
 
 
 # # ارزان‌ترین محصولات
@@ -166,6 +167,13 @@ class CheapestProductsView(BaseProductsView):
         "group_name": "ارزان‌ترین محصولات",
          "type": "row"
     }
+    
+    # def post(self, request):
+    #     category_title = request.POST.get("categoryTitle", None)
+    #     if category_title:
+    #         category_proudcts = filter_products(category__title=category_title)[:5]
+    #         html_rendered = render_to_string(self.template_name, {'category_proudcts': category_proudcts})
+    #         return JsonResponse({'html': html_rendered})
 
 
 # # جدیدترین محصولات
@@ -265,8 +273,15 @@ class ProductCategoryView(ActiveFilterView):
     def get_queryset(self, **kwargs):
         slug = self.kwargs.get("slug")
         queryset = get_category_products(slug)
-        
+
         sort_type = self.request.GET.get('sort_type')
+        # if sort_type == None:
+        #     sort_type = '0'
+        # elif sort_type == '1':
+        #     self.ordering = ('price',)
+        # elif sort_type == '2':
+        #     self.ordering = ('-price',)
+
         match sort_type:
             case None:
                 sort_type = '0'

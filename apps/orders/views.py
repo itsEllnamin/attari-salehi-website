@@ -74,7 +74,7 @@ def shop_cart_status(request):
 
 
 class CreateOrderView(LoginRequiredMixin, RedirectView):
-    permanent = True
+    # permanent = True
     
     def get_redirect_url(self, *args, **kwargs):
         request = self.request
@@ -91,7 +91,7 @@ class CreateOrderView(LoginRequiredMixin, RedirectView):
                 order = order,
                 product = item['product'],
                 qty = item['qty'],
-                price = item['price']
+                price = item['discounted_price']
             )
         return super().get_redirect_url(*args, **kwargs)
 

@@ -2,61 +2,65 @@
 <div class="block">
     <div class="container">
         <div id="favorites-detail">
-            <table class="wishlist">
-                <thead class="wishlist__head">
-                    <tr class="wishlist__row">
-                        <th class="wishlist__column wishlist__column--image">تصویر</th>
-                        <th class="wishlist__column wishlist__column--product">محصول</th>
-                        <th class="wishlist__column wishlist__column--stock">وضعیت انبار</th>
-                        <th class="wishlist__column wishlist__column--price">قیمت</th>
-                        <th class="wishlist__column wishlist__column--tocart"></th>
-                        <th class="wishlist__column wishlist__column--remove"></th>
-                    </tr>
-                </thead>
-                <tbody class="wishlist__body">
-                    {% for favorite in favorites %}
+            {% if favorites %}
+                <table class="wishlist">
+                    <thead class="wishlist__head">
                         <tr class="wishlist__row">
-                            <td class="wishlist__column wishlist__column--image">
-                                <a href="{{favorite.product.get_absolute_url}}"><img src="{{media_url}}{{favorite.product.main_image}}" alt=""></a>
-                            </td>
-                            <td class="wishlist__column wishlist__column--product">
-                                <a href="{{favorite.product.get_absolute_url}}" class="wishlist__product-name">
-                                    {{favorite.product.name}}
-                                </a>
-                            </td>
-                            <td class="wishlist__column wishlist__column--stock">
-                                {% if favorite.product.get_quantity_in_warehouse > 0 %}
-                                    <div class="badge badge-success">موجود در انبار</div>
-                                {% else %}
-                                    <div class="badge badge-danger">ناموجود</div>
-                                {% endif %}
-                            </td>
-                            {% if favorite.product.price > favorite.product.get_discounted_price %}
-                                <td class="cart-table__column cart-table__column--price" data-title="قیمت">
-                                    <div class="product-card__prices">
-                                        <span class="product-card__new-price">{{favorite.product.get_discounted_price|intcomma:False}} تومان</span> 
-                                        <span class="product-card__old-price">{{favorite.product.price|intcomma:False}} تومان</span>
-                                    </div>
-                                </td>
-                            {% else %}
-                                <td class="wishlist__column wishlist__column--price">{{favorite.product.price|intcomma:False}} تومان</td>
-                            {% endif %}
-                            <td class="wishlist__column wishlist__column--tocart">
-                                {% if favorite.product.get_quantity_in_warehouse > 0 %}
-                                    <button type="button" class="btn btn-primary btn-sm" onclick="add_to_shop_cart({{favorite.product.id}}, 1);">افزودن به سبد</button>
-                                {% else %}
-                                    <button type="button" class="btn btn-info disable btn-sm">افزودن به سبد</button>
-                                {% endif %}
-                            </td>
-                            <td class="wishlist__column wishlist__column--remove">
-                                <button onclick="delete_from_favorites({{favorite.product.id}});" class="btn btn-light btn-sm btn-svg-icon">
-                                    <i class="fa fa-times" style="color: red;"></i>
-                                </button>
-                            </td>
+                            <th class="wishlist__column wishlist__column--image">تصویر</th>
+                            <th class="wishlist__column wishlist__column--product">محصول</th>
+                            <th class="wishlist__column wishlist__column--stock">وضعیت انبار</th>
+                            <th class="wishlist__column wishlist__column--price">قیمت</th>
+                            <th class="wishlist__column wishlist__column--tocart"></th>
+                            <th class="wishlist__column wishlist__column--remove"></th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="wishlist__body">
+                        {% for favorite in favorites %}
+                            <tr class="wishlist__row">
+                                <td class="wishlist__column wishlist__column--image">
+                                    <a href="{{favorite.product.get_absolute_url}}"><img src="{{media_url}}{{favorite.product.main_image}}" alt=""></a>
+                                </td>
+                                <td class="wishlist__column wishlist__column--product">
+                                    <a href="{{favorite.product.get_absolute_url}}" class="wishlist__product-name">
+                                        {{favorite.product.name}}
+                                    </a>
+                                </td>
+                                <td class="wishlist__column wishlist__column--stock">
+                                    {% if favorite.product.get_quantity_in_warehouse > 0 %}
+                                        <div class="badge badge-success">موجود در انبار</div>
+                                    {% else %}
+                                        <div class="badge badge-danger">ناموجود</div>
+                                    {% endif %}
+                                </td>
+                                {% if favorite.product.price > favorite.product.get_discounted_price %}
+                                    <td class="cart-table__column cart-table__column--price" data-title="قیمت">
+                                        <div class="product-card__prices">
+                                            <span class="product-card__new-price">{{favorite.product.get_discounted_price|intcomma:False}} تومان</span> 
+                                            <span class="product-card__old-price">{{favorite.product.price|intcomma:False}} تومان</span>
+                                        </div>
+                                    </td>
+                                {% else %}
+                                    <td class="wishlist__column wishlist__column--price">{{favorite.product.price|intcomma:False}} تومان</td>
+                                {% endif %}
+                                <td class="wishlist__column wishlist__column--tocart">
+                                    {% if favorite.product.get_quantity_in_warehouse > 0 %}
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="add_to_shop_cart({{favorite.product.id}}, 1);">افزودن به سبد</button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-info disable btn-sm">افزودن به سبد</button>
+                                    {% endif %}
+                                </td>
+                                <td class="wishlist__column wishlist__column--remove">
+                                    <button onclick="delete_from_favorites({{favorite.product.id}});" class="btn btn-light btn-sm btn-svg-icon">
+                                        <i class="fa fa-times" style="color: red;"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h2>هنوز کالایی به علاقه‌مندی‌ها اضافه نشده</h2>
+            {% endif %}
         </div>
     </div>
 </div>

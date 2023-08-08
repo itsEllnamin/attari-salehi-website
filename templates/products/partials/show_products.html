@@ -7,7 +7,7 @@
                         <div class="block-header">
                             <h3 class="block-header__title">{{group_name}}</h3>
                             <div class="block-header__divider"></div>
-                            {% if 'مرتبط' in group_name %}
+                            {% comment %} {% if 'مرتبط' in group_name %}
                             {% else %}
                                 <ul class="block-header__groups-list">
                                     <li>
@@ -16,7 +16,7 @@
                                     </li>
                                     {% for category in categories %}
                                         <li>
-                                            <button type="button" class="block-header__group">{{ category.title }}</button>
+                                            <button onlick="setCategory({{category.title}})" class="block-header__group">{{ category.title }}</button>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -28,13 +28,13 @@
                                         <i class="fas fa-angle-left"></i>
                                     </button>
                                 </div>
-                            {% endif %}
+                            {% endif %} {% endcomment %}
                         </div>
                         <div class="block-products-carousel__slider">
                             <div class="block-products-carousel__preloader"></div>
                             <div class="owl-carousel owl-rtl owl-loaded owl-drag">
                                 <div class="owl-stage-outer">
-                                    <div class="owl-stage"
+                                    <div class="owl-stage category_products"
                                         style="transform: translate3d(1120px, 0px, 0px); transition: all 0s ease 0s; width: 4034px; padding-left: 1px; padding-right: 1px;">
                                         {% for product in products %}
                                             <div class="owl-item active" style="width: 212px; margin-left: 12px;">
