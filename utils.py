@@ -11,7 +11,7 @@ def create_random_code(count):
 def send_sms(template, mobile_number, message):
     # from kavenegar import KavenegarAPI, APIException, HTTPException
     # try:
-    #     api = KavenegarAPI('7A41476C576F4F654458567330793652384B596B576950522B6643794B536B757634736B324342525464733D')
+    #     api = KavenegarAPI('')
     #     params = {
     #         'receptor': mobile_number,
     #         'template': template,
