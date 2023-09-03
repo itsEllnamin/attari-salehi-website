@@ -96,9 +96,9 @@ WSGI_APPLICATION = 'attari.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': 'attarisalehi',
+        'NAME': 'testattarisalehi',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'Hm@rEbsl357678',
         'HOST': 'localhost',
         'PORT': '3306'
     }
