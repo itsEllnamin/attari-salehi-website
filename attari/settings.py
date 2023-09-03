@@ -96,9 +96,9 @@ WSGI_APPLICATION = 'attari.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': 'db_attarisalehi',
+        'NAME': 'attarisalehi',
         'USER': 'root',
-        'PASSWORD': 'Hm@rEbsl357678',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306'
     }
@@ -229,5 +229,5 @@ CKEDITOR_CONFIGS = {
 # Zarinpal
 # https://www.zarinpal.com/
 
-MERCHANT  =  "3454475f-ceba-4da1-8eeb-e7bb3133ae2b"
+MERCHANT  =  ""
 SANDBOX  =  True

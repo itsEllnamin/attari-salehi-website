@@ -75,6 +75,7 @@ class ProductAdmin(admin.ModelAdmin):
         "is_active",
         "update_datetime",
     )
+    search_fields = ("name",)
     list_editable = ["is_active"]
     inlines = (ProductFeatureInlineAdmin, ProductGalleryInlineAdmin)
     

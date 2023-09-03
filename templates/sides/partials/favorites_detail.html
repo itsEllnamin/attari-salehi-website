@@ -44,7 +44,7 @@
                                 {% endif %}
                                 <td class="wishlist__column wishlist__column--tocart">
                                     {% if favorite.product.get_quantity_in_warehouse > 0 %}
-                                        <button type="button" class="btn btn-primary btn-sm" onclick="add_to_shop_cart({{favorite.product.id}}, 1);">افزودن به سبد</button>
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="addToShopCart({{favorite.product.id}}, 1);">افزودن به سبد</button>
                                     {% else %}
                                         <button type="button" class="btn btn-info disable btn-sm">افزودن به سبد</button>
                                     {% endif %}

@@ -88,7 +88,7 @@ class ActiveListView(ListView):
             queryset = queryset.order_by(*ordering)
 
         return queryset
-    
+ 
     
 class ActiveFilterView(FilterView):
     def get_queryset(self):

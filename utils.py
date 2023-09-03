@@ -11,7 +11,7 @@ def create_random_code(count):
 def send_sms(template, mobile_number, message):
     # from kavenegar import KavenegarAPI, APIException, HTTPException
     # try:
-    #     api = KavenegarAPI('7A41476C576F4F654458567330793652384B596B576950522B6643794B536B757634736B324342525464733D')
+    #     api = KavenegarAPI('')
     #     params = {
     #         'receptor': mobile_number,
     #         'template': template,
@@ -37,7 +37,7 @@ class FileManager():
     def upload_to(self, instance, filename):
         from os.path import splitext
         from uuid import uuid4
-        
+
         filename, ext = splitext(filename)
         file_name = f'{instance}{uuid4()}{ext}'
         self.file_path = f'{self.filetype}/{self.app_name}/{self.prefix}/{file_name}'
