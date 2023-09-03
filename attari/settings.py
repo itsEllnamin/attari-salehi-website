@@ -229,5 +229,5 @@ CKEDITOR_CONFIGS = {
 # Zarinpal
 # https://www.zarinpal.com/
 
-MERCHANT  =  ""
+MERCHANT  =  "3454475f-ceba-4da1-8eeb-e7bb3133ae2b"
 SANDBOX  =  True
