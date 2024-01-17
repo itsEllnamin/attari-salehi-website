@@ -25,7 +25,7 @@ mypy-extensions==1.0.0
 mysql-connector-python==8.0.33
 packaging==23.1
 pathspec==0.11.1
-Pillow==9.5.0
+Pillow==10.0.1
 platformdirs==3.3.0
 protobuf==3.20.3
 pytz==2023.3
